@@ -41,8 +41,10 @@
               class="canvas"
             ></canvas>
             <div class="hint">
-              Click a sticker to select, then drag to move.
+              Click a sticker to select, then drag to move. Selected sticker
+              automatically comes to front.
             </div>
+            <div id="status" class="status">Loading...</div>
           </section>
 
           <aside class="panel">
@@ -58,6 +60,10 @@
                   <option>lighter</option>
                   <option>xor</option>
                   <option>destination-over</option>
+                  <option>color-burn</option>
+                  <option>color-dodge</option>
+                  <option>hard-light</option>
+                  <option>soft-light</option>
                 </select>
               </label>
               <label
@@ -83,17 +89,22 @@
 
             <div class="panel-section">
               <h2>Background Filter</h2>
+              <p class="filter-hint">
+                Apply filters to the colorful gradient background!
+              </p>
               <label
                 >Filter
                 <select id="filter">
                   <option value="none">None</option>
                   <option value="grayscale">Grayscale</option>
                   <option value="pixelate">Pixelate</option>
-                  <option value="edge">Edge</option>
+                  <option value="edge">Edge Detection</option>
                 </select>
               </label>
-              <button id="applyFilter">Apply</button>
-              <button id="resetFilter">Restore</button>
+              <div class="btn-row">
+                <button id="applyFilter">Apply Filter</button>
+                <button id="resetFilter">Reset Filter</button>
+              </div>
             </div>
 
             <div class="panel-section">
