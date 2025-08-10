@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas Magic Postcard — MVP</title>
+    <link rel="stylesheet" href="/src/site.css" />
+    <link rel="stylesheet" href="./canvas-magic-postcard/src/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>iThome 鐵人賽 2025 — Demo 目錄</h1>
+      <a
+        href="https://github.com/yourname/ithome-contest-2025"
+        target="_blank"
+        rel="noopener"
+        >View Repo</a
+      >
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="nav">
+          <div class="nav-group">
+            <a href="./index.html">首頁</a>
+            <div class="nav-title">CANVAS</div>
+            <a class="active" href="./canvas-magic-postcard.html"
+              >Canvas 魔法卡 (Magic Postcard)</a
+            >
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="demo-grid">
+          <section class="stage">
+            <canvas
+              id="canvas"
+              width="600"
+              height="400"
+              class="canvas"
+            ></canvas>
+            <div class="hint">
+              Click a sticker to select, then drag to move.
+            </div>
+          </section>
+
+          <aside class="panel">
+            <div class="panel-section">
+              <h2>Blend & Opacity</h2>
+              <label
+                >globalCompositeOperation
+                <select id="blend">
+                  <option>source-over</option>
+                  <option>multiply</option>
+                  <option>screen</option>
+                  <option>overlay</option>
+                  <option>lighter</option>
+                  <option>xor</option>
+                  <option>destination-over</option>
+                </select>
+              </label>
+              <label
+                >Opacity
+                <input
+                  id="opacity"
+                  type="range"
+                  min="0.1"
+                  max="1"
+                  step="0.05"
+                  value="1"
+              /></label>
+            </div>
+
+            <div class="panel-section">
+              <h2>Transform</h2>
+              <div class="btn-row">
+                <button id="rotate">Rotate 15°</button>
+                <button id="scaleUp">Scale ×1.1</button>
+                <button id="reset">Reset</button>
+              </div>
+            </div>
+
+            <div class="panel-section">
+              <h2>Background Filter</h2>
+              <label
+                >Filter
+                <select id="filter">
+                  <option value="none">None</option>
+                  <option value="grayscale">Grayscale</option>
+                  <option value="pixelate">Pixelate</option>
+                  <option value="edge">Edge</option>
+                </select>
+              </label>
+              <button id="applyFilter">Apply</button>
+              <button id="resetFilter">Restore</button>
+            </div>
+
+            <div class="panel-section">
+              <h2>Export</h2>
+              <label
+                ><input type="checkbox" id="transparentBg" /> Transparent
+                background</label
+              >
+              <div class="btn-row">
+                <button id="exportPNG">Export PNG</button>
+              </div>
+              <a id="downloadLink" class="download-link" style="display: none"
+                >Download image</a
+              >
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="./canvas-magic-postcard/src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+/* reuse styles from previous build for stage/panel */
+.stage {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  display: grid; place-items: center;
+  position: relative;
+  min-height: 420px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  margin-bottom: 14px;
+}
+.canvas {
+  background: #0f1218;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: 100%;
+  height: auto;
+  max-width: 900px;
+  aspect-ratio: 3 / 2;
+}
+.hint {
+  position: absolute;
+  bottom: 12px; left: 16px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+.panel-section {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+}
+.panel-section h2 {
+  font-size: 13px; margin: 0 0 8px 0; color: #cfd6e6; letter-spacing: .2px;
+}
+label { display: block; margin: 8px 0; color: var(--muted); }
+select, input[type="range"], button {
+  width: 100%;
+  background: #0f1218;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.btn-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+button { cursor: pointer; }
+button:hover { border-color: #3a3f4a; }
+.download-link { display: inline-block; margin-top: 8px; color: var(--accent); }
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 1100px) {
+  .demo-grid { grid-template-columns: 1fr 340px; }
+}
+@media (max-width: 900px) {
+  .demo-grid { grid-template-columns: 1fr; }
+}
