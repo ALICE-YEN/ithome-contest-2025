@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Canvas Magic Postcard — MVP</title>
     <link rel="stylesheet" href="/src/site.css" />
-    <link rel="stylesheet" href="./canvas-magic-postcard/src/style.css" />
+    <link
+      rel="stylesheet"
+      href="./canvas-filter-sticker-playground/src/style.css"
+    />
   </head>
   <body>
     <header class="header">
       <h1>iThome 鐵人賽 2025 — Demo 目錄</h1>
       <a
-        href="https://github.com/yourname/ithome-contest-2025"
+        href="https://github.com/ALICE-YEN/ithome-contest-2025"
         target="_blank"
         rel="noopener"
         >View Repo</a
@@ -24,8 +27,9 @@
           <div class="nav-group">
             <a href="./index.html">首頁</a>
             <div class="nav-title">CANVAS</div>
-            <a class="active" href="./canvas-magic-postcard.html"
-              >Canvas 魔法卡 (Magic Postcard)</a
+            <a href="./canvas-magic-photo.html">Canvas Magic Photo</a>
+            <a class="active" href="./canvas-filter-sticker-playground.html"
+              >Canvas Filter & Sticker Playground</a
             >
           </div>
         </div>
@@ -33,6 +37,7 @@
 
       <main class="content">
         <div class="demo-grid">
+          <!-- 畫布區 -->
           <section class="stage">
             <canvas
               id="canvas"
@@ -47,6 +52,7 @@
             <div id="status" class="status">Loading...</div>
           </section>
 
+          <!-- 控制面板 -->
           <aside class="panel">
             <div class="panel-section">
               <h2>Blend & Opacity</h2>
@@ -125,6 +131,9 @@
       </main>
     </div>
 
-    <script type="module" src="./canvas-magic-postcard/src/main.js"></script>
+    <script
+      type="module"
+      src="./canvas-filter-sticker-playground/src/main.js"
+    ></script>
   </body>
 </html>
