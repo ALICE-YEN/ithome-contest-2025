@@ -4,6 +4,7 @@
  * - Snow：80% 雪花在後、20% 在前，帶景深
  * ======================================================= */
 
+// 自訂的 $ 小工具在抓 DOM
 const $ = (sel) => document.querySelector(sel);
 
 const canvas = $("#canvas");
@@ -39,7 +40,7 @@ let flakes = [];
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const rand = (a, b) => a + Math.random() * (b - a);
 
-function setStatus(t, ms = 1200) {
+function setStatus(t, ms = 1600) {
   if (!statusEl) return;
   statusEl.textContent = t;
   statusEl.style.opacity = 1;
@@ -47,7 +48,9 @@ function setStatus(t, ms = 1200) {
 }
 
 // ---------- Sprites ----------
+// 先離線畫好一張小小的貼圖（sprite），之後用 ctx.drawImage(...) 直接貼到主畫布，省得每一幀都重畫漸層。概念來自遊戲開發的 sprite 素材快取
 function makeStarSprite(size = 64) {
+  // 做一個離屏小畫布（不加到 DOM），大小是 size × size
   const c = document.createElement("canvas");
   c.width = c.height = size;
   const g = c.getContext("2d");
@@ -78,15 +81,15 @@ function makeSnowSprite(size = 48) {
 // ---------- Build fields ----------
 function buildStars() {
   const area = view.cssW * view.cssH;
-  const count = clamp(Math.round(area / 1800), 150, 900);
+  const count = clamp(Math.round(area / 1800), 150, 900); // 畫布越大星星越多，但不會少於 150 或多於 900（避免過 sparse 或爆量卡頓）
   stars = Array.from({ length: count }, () => ({
     x: Math.random() * view.cssW,
     y: Math.random() * view.cssH,
     size: rand(0.6, 2.2),
-    baseA: rand(0.35, 0.9),
-    twAmp: rand(0.15, 0.55),
-    twSpd: rand(0.6, 1.6),
-    phase: Math.random() * Math.PI * 2,
+    baseA: rand(0.35, 0.9), // 基礎亮度
+    twAmp: rand(0.15, 0.55), // 閃爍幅度
+    twSpd: rand(0.6, 1.6), // 閃爍速度
+    phase: Math.random() * Math.PI * 2, // 位移相位
   }));
 }
 
@@ -97,15 +100,16 @@ function buildSnow() {
     x: Math.random() * view.cssW,
     y: Math.random() * view.cssH,
     size: rand(1.2, 3.2),
-    vy: rand(18, 55) / 60,
-    driftAmp: rand(0.2, 1.4),
-    driftSpd: rand(0.6, 1.6),
-    phase: Math.random() * Math.PI * 2,
-    a: rand(0.65, 1),
+    vy: rand(18, 55) / 60, // 往下落的速度（px/幀）
+    driftAmp: rand(0.2, 1.4), // 水平擺動幅度（越大左右晃越明顯）
+    driftSpd: rand(0.6, 1.6), // 擺動速度（相位每秒增加量）
+    phase: Math.random() * Math.PI * 2, // 水平擺動用的相位
+    a: rand(0.65, 1), // 基礎透明度
   }));
 }
 
 // ---------- Photo fit (contain) ----------
+// 把照片用 「等比縮放、完整顯示（contain）」 的方式擺進畫布中央，四周留白 pad 像素
 function fitPhotoContain(pad = 24) {
   if (!photo.img) return;
   const vw = view.cssW - pad * 2;
@@ -235,7 +239,7 @@ function drawPhoto() {
 
 // Stars：一次畫完（在照片後面）
 function drawStars() {
-  ctx.fillStyle = "rgba(0,0,0,0.15)";
+  ctx.fillStyle = "rgba(0,0,0,0.15)"; // 先在整個畫布上疊一層 15% 透明的黑色，讓背景更暗、星星更顯眼
   ctx.fillRect(0, 0, view.cssW, view.cssH);
   for (const s of stars) {
     const tw = s.baseA + s.twAmp * Math.sin(s.phase + time * s.twSpd * 2);
@@ -243,7 +247,7 @@ function drawStars() {
     const d = s.size * 6;
     ctx.drawImage(starSprite, s.x - d / 2, s.y - d / 2, d, d);
   }
-  ctx.globalAlpha = 1;
+  ctx.globalAlpha = 1; // 還原透明度
 }
 
 // Snow：先更新全部，再分兩層繪製（背景 80% + 前景 20%）
@@ -252,6 +256,7 @@ function updateSnow() {
     f.phase += f.driftSpd / 60;
     f.x += Math.sin(f.phase) * f.driftAmp;
     f.y += f.vy;
+    // 邊界回收：掉出畫布下緣（多 6px 緩衝，避免邊緣跳動感）就把雪花「傳送」回頂端，並隨機一個水平位置，形成無限循環的降雪
     if (f.y > view.cssH + 6) {
       f.y = -6;
       f.x = Math.random() * view.cssW;
@@ -262,13 +267,14 @@ function updateSnow() {
 function drawSnowLayer(startIndex, endIndex, foreground = false) {
   for (let i = startIndex; i < endIndex; i++) {
     const f = flakes[i];
+    // foreground 決定要不要把它們畫得更大、更亮，來做景深
     const sizeBoost = foreground ? 1.25 : 1;
     const alphaBoost = foreground ? 1.1 : 1;
     ctx.globalAlpha = Math.min(1, f.a * alphaBoost);
     const d = f.size * 8 * sizeBoost;
     ctx.drawImage(snowSprite, f.x - d / 2, f.y - d / 2, d, d);
   }
-  ctx.globalAlpha = 1;
+  ctx.globalAlpha = 1; // 還原狀態，避免影響後續繪圖
 }
 
 // ---------- Render loop ----------
