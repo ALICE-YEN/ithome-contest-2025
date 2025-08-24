@@ -5,8 +5,8 @@
  * ======================================================= */
 
 // ===== 參數設定 =====
-const CSS_W = 640,
-  CSS_H = 360;
+let CSS_W = 900,
+  CSS_H = 600; // 初始值，會被實際尺寸覆蓋
 const COUNT = 10000;
 const SIZE = 2;
 const AUTO_STOP_TIME = 10000; // 10秒後自動停止
@@ -27,8 +27,8 @@ const timerLabel = document.getElementById("timer-label");
 function makeSeed(n) {
   const arr = new Array(n);
   for (let i = 0; i < n; i++) {
-    const x = Math.random() * (CSS_W - SIZE);
-    const y = Math.random() * (CSS_H - SIZE);
+    const x = Math.random() * (window.CSS_W || CSS_W - SIZE);
+    const y = Math.random() * (window.CSS_H || CSS_H - SIZE);
     const speed = 0.6;
     const vx = (Math.random() * 2 - 1) * speed;
     const vy = (Math.random() * 2 - 1) * speed;
@@ -92,12 +92,21 @@ let ctx,
 
 function setupCanvas() {
   devicePixelRatio = window.devicePixelRatio || 1;
-  canvas.width = Math.round(CSS_W * devicePixelRatio);
-  canvas.height = Math.round(CSS_H * devicePixelRatio);
-  canvas.style.width = CSS_W + "px";
-  canvas.style.height = CSS_H + "px";
+
+  // 使用實際的 canvas 元素尺寸
+  const rect = canvas.getBoundingClientRect();
+  const cssW = rect.width;
+  const cssH = rect.height;
+
+  canvas.width = Math.round(cssW * devicePixelRatio);
+  canvas.height = Math.round(cssH * devicePixelRatio);
+
   ctx = canvas.getContext("2d");
   ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+
+  // 更新全域變數以反映實際尺寸
+  window.CSS_W = cssW;
+  window.CSS_H = cssH;
 }
 
 setupCanvas();
