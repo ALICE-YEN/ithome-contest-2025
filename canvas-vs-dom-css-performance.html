@@ -57,47 +57,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- 控制面板 -->
-              <aside class="control-panel">
-                <div class="control-section">
-                  <h3>Test Mode</h3>
-                  <label>
-                    選擇測試模式
-                    <select id="test-mode">
-                      <option value="dom">DOM + CSS Transform</option>
-                      <option value="canvas">Canvas 2D</option>
-                      <option value="auto">Auto Switch (5s間隔)</option>
-                    </select>
-                  </label>
-                </div>
-
-                <div class="control-section">
-                  <h3>Control</h3>
-                  <div class="btn-row">
-                    <button id="btn-start" class="btn-primary">
-                      Start Test
-                    </button>
-                    <button id="btn-stop" class="btn-secondary" disabled>
-                      Stop Test
-                    </button>
-                  </div>
-                </div>
-
-                <div class="control-section">
-                  <h3>Test Info</h3>
-                  <div class="test-specs">
-                    <div class="spec-row">
-                      <span class="spec-label">粒子數量:</span>
-                      <span class="spec-value">10,000</span>
-                    </div>
-                    <div class="spec-row">
-                      <span class="spec-label">自動停止:</span>
-                      <span class="spec-value">10秒後</span>
-                    </div>
-                  </div>
-                </div>
-              </aside>
             </div>
 
             <!-- 狀態顯示 -->
@@ -123,6 +82,45 @@
               </p>
             </div>
           </section>
+
+          <!-- 控制面板 -->
+          <aside class="control-panel">
+            <div class="control-section">
+              <h3>Test Mode</h3>
+              <label>
+                選擇測試模式
+                <select id="test-mode">
+                  <option value="dom">DOM + CSS Transform</option>
+                  <option value="canvas">Canvas 2D</option>
+                  <option value="auto">Auto Switch (5s間隔)</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="control-section">
+              <h3>Control</h3>
+              <div class="btn-row">
+                <button id="btn-start" class="btn-primary">Start Test</button>
+                <button id="btn-stop" class="btn-secondary" disabled>
+                  Stop Test
+                </button>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <h3>Test Info</h3>
+              <div class="test-specs">
+                <div class="spec-row">
+                  <span class="spec-label">粒子數量:</span>
+                  <span class="spec-value">10,000</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label">自動停止:</span>
+                  <span class="spec-value">10秒後</span>
+                </div>
+              </div>
+            </div>
+          </aside>
         </div>
       </main>
     </div>
