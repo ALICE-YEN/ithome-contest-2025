@@ -203,7 +203,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
-  margin: 16px 0 12px 0;
+  margin: 24px 0 12px 0;
 }
 
 .status-item {
