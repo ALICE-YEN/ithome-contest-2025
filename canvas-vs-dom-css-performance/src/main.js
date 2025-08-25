@@ -5,8 +5,8 @@
  * ======================================================= */
 
 // ===== 參數設定 =====
-let CSS_W = 900,
-  CSS_H = 600; // 初始值，會被實際尺寸覆蓋
+const CSS_W = 900,
+  CSS_H = 600; // 固定邏輯尺寸
 const COUNT = 10000;
 const SIZE = 2;
 const AUTO_STOP_TIME = 10000; // 10秒後自動停止
@@ -27,8 +27,8 @@ const timerLabel = document.getElementById("timer-label");
 function makeSeed(n) {
   const arr = new Array(n);
   for (let i = 0; i < n; i++) {
-    const x = Math.random() * (window.CSS_W || CSS_W - SIZE);
-    const y = Math.random() * (window.CSS_H || CSS_H - SIZE);
+    const x = Math.random() * (CSS_W - SIZE);
+    const y = Math.random() * (CSS_H - SIZE);
     const speed = 0.6;
     const vx = (Math.random() * 2 - 1) * speed;
     const vy = (Math.random() * 2 - 1) * speed;
@@ -51,7 +51,7 @@ let domDots = [];
 
 // ===== FPS 計算器 =====
 function makeFPSCounter() {
-  let frameCount = 0;
+  let frameCount = 0; // 累計計數幀數
   let lastTime = 0;
   let currentFPS = 0;
 
@@ -59,7 +59,7 @@ function makeFPSCounter() {
     if (lastTime === 0) lastTime = currentTime;
 
     frameCount++;
-    const elapsed = currentTime - lastTime;
+    const elapsed = currentTime - lastTime; // 距離上次計算 FPS 過了多少毫秒
 
     if (elapsed >= 1000) {
       currentFPS = Math.round((frameCount * 1000) / elapsed);
@@ -91,26 +91,40 @@ let ctx,
   devicePixelRatio = 1;
 
 function setupCanvas() {
+  if (!canvas) return;
+
   devicePixelRatio = window.devicePixelRatio || 1;
 
-  // 使用實際的 canvas 元素尺寸
-  const rect = canvas.getBoundingClientRect();
-  const cssW = rect.width;
-  const cssH = rect.height;
+  // 固定 Canvas 尺寸為邏輯座標尺寸
+  canvas.width = Math.round(CSS_W * devicePixelRatio);
+  canvas.height = Math.round(CSS_H * devicePixelRatio);
 
-  canvas.width = Math.round(cssW * devicePixelRatio);
-  canvas.height = Math.round(cssH * devicePixelRatio);
+  // 設定 Canvas 顯示尺寸為固定尺寸
+  canvas.style.width = CSS_W + "px";
+  canvas.style.height = CSS_H + "px";
 
   ctx = canvas.getContext("2d");
-  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  if (ctx) {
+    // 縮放 context 以支援高解析度
+    ctx.scale(devicePixelRatio, devicePixelRatio);
 
-  // 更新全域變數以反映實際尺寸
-  window.CSS_W = cssW;
-  window.CSS_H = cssH;
+    // 調試信息
+    console.log(`Canvas setup (Fixed size): 
+    - Physical: ${canvas.width}×${canvas.height}
+    - Display: ${CSS_W}×${CSS_H}
+    - DPR: ${devicePixelRatio}`);
+  }
 }
 
-setupCanvas();
-window.addEventListener("resize", setupCanvas);
+// 延遲初始化 canvas，確保 DOM 完全載入
+function initCanvas() {
+  if (canvas && canvas.getBoundingClientRect().width > 0) {
+    setupCanvas();
+  } else {
+    // 如果 canvas 還沒有尺寸，稍後再試
+    setTimeout(initCanvas, 100);
+  }
+}
 
 // ===== DOM 粒子系統 =====
 function createDomDots() {
@@ -184,7 +198,18 @@ function setDisplayMode(mode) {
     canvas.style.display = "block";
     canvas.setAttribute("aria-hidden", "false");
     removeDomDots();
-    ctx.clearRect(0, 0, CSS_W, CSS_H);
+
+    // 確保 canvas 正確設定
+    setupCanvas();
+
+    if (ctx) {
+      // 清空並繪製一個測試矩形來驗證 canvas 工作正常
+      ctx.clearRect(0, 0, CSS_W, CSS_H);
+
+      // 測試繪製
+      ctx.fillStyle = "#4e79a7";
+      ctx.fillRect(10, 10, 5, 5); // 繪製一個小方塊測試
+    }
   }
 }
 
@@ -215,9 +240,11 @@ function animationLoop(timestamp) {
 
       if (particle.x <= 0 || particle.x >= CSS_W - SIZE) {
         particle.vx *= -1;
+        particle.x = Math.max(0, Math.min(particle.x, CSS_W - SIZE));
       }
       if (particle.y <= 0 || particle.y >= CSS_H - SIZE) {
         particle.vy *= -1;
+        particle.y = Math.max(0, Math.min(particle.y, CSS_H - SIZE));
       }
 
       domDots[
@@ -225,23 +252,35 @@ function animationLoop(timestamp) {
       ].style.transform = `translate3d(${particle.x}px, ${particle.y}px, 0)`;
     }
   } else if (currentTestMode === "canvas") {
-    // Canvas 版本
+    // Canvas 版本 - 固定尺寸，不需要縮放
+    if (!ctx) {
+      console.warn("Canvas context not available");
+      animationId = requestAnimationFrame(animationLoop);
+      return;
+    }
+
+    // 清空整個 canvas
     ctx.clearRect(0, 0, CSS_W, CSS_H);
     ctx.fillStyle = "#4e79a7";
 
     for (let i = 0; i < COUNT; i++) {
       const particle = canvasParticles[i];
 
+      // 直接在邏輯座標系統中更新和繪製
       particle.x += particle.vx;
       particle.y += particle.vy;
 
+      // 邊界檢測
       if (particle.x <= 0 || particle.x >= CSS_W - SIZE) {
         particle.vx *= -1;
+        particle.x = Math.max(0, Math.min(particle.x, CSS_W - SIZE));
       }
       if (particle.y <= 0 || particle.y >= CSS_H - SIZE) {
         particle.vy *= -1;
+        particle.y = Math.max(0, Math.min(particle.y, CSS_H - SIZE));
       }
 
+      // 直接繪製，無需座標轉換
       ctx.fillRect(particle.x, particle.y, SIZE, SIZE);
     }
   }
@@ -366,12 +405,31 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+// ===== Resize 處理 =====
+let resizeTimeout;
+window.addEventListener("resize", () => {
+  // Canvas 固定尺寸，只需要重新設定高解析度支援
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    console.log("Window resized, updating canvas DPR...");
+    setupCanvas();
+
+    // 如果正在運行 canvas 模式，清空一次避免殘留
+    if (isRunning && currentTestMode === "canvas" && ctx) {
+      ctx.clearRect(0, 0, CSS_W, CSS_H);
+    }
+  }, 100);
+});
+
 // ===== 初始化 =====
 function initialize() {
   // 設定初始狀態
   modeLabel.textContent = "READY";
   fpsLabel.textContent = "0";
   timerLabel.textContent = "0s";
+
+  // 初始化 canvas
+  initCanvas();
 
   console.log(`Performance test initialized:
 - Particles: ${COUNT.toLocaleString()}
@@ -382,4 +440,9 @@ function initialize() {
 - Keyboard shortcuts: Space (start), Escape (stop)`);
 }
 
-initialize();
+// 確保 DOM 完全載入後再初始化
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initialize);
+} else {
+  initialize();
+}
