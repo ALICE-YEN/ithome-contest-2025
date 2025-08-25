@@ -1,5 +1,3 @@
-/* Canvas vs DOM Performance Demo Styles */
-
 .demo-grid {
   display: grid;
   grid-template-columns: 1fr 360px;

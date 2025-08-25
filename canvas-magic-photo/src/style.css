@@ -1,4 +1,3 @@
-/* reuse styles from previous build for stage/panel */
 .stage {
   background: var(--panel);
   border: 1px solid var(--border);
