@@ -207,9 +207,9 @@ function resetBackground() {
 }
 
 function applyFilter(kind) {
-  const { width: w, height: h } = offB;
-  const img = offCtxA.getImageData(0, 0, w, h);
-  const data = img.data;
+  const { width: w, height: h } = offB; // 從離屏畫布 offB 取寬高，之後會用到這兩個值做像素運算與邊界檢查
+  const img = offCtxA.getImageData(0, 0, w, h); // 從原始背景畫布 offA 取得像素資料
+  const data = img.data; // 是一個 Uint8ClampedArray，格式為 RGBA 連續排列，每 4 個值是一個像素
 
   if (kind === "grayscale") {
     // 灰階 - 增強對比
@@ -217,13 +217,14 @@ function applyFilter(kind) {
       const r = data[i],
         g = data[i + 1],
         b = data[i + 2];
+      // 用感知亮度（Rec.709）計算灰階值 y，讓人眼感覺更自然
       const y = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-      // 增加對比度
+      // 增加對比度，以 128 為中心拉高對比（×1.5），再 夾限 到 0–255 避免溢位。
       const contrast = (y - 128) * 1.5 + 128;
       const final = Math.max(0, Math.min(255, contrast));
       data[i] = data[i + 1] = data[i + 2] = final;
     }
-    offCtxB.putImageData(img, 0, 0);
+    offCtxB.putImageData(img, 0, 0); // 把處理後的影像寫回到輸出離屏 offCtxB
   } else if (kind === "pixelate") {
     // 像素化 - 調整區塊大小
     const block = 30;
@@ -235,11 +236,12 @@ function applyFilter(kind) {
           b = data[i + 2],
           a = data[i + 3];
 
+        // 取該區塊左上角像素的 RGBA，當作整個區塊的顏色
         for (let yy = 0; yy < block; yy++) {
           for (let xx = 0; xx < block; xx++) {
             const ny = y + yy,
               nx = x + xx;
-            if (ny >= h || nx >= w) continue;
+            if (ny >= h || nx >= w) continue; // 邊界要檢查，避免超出畫布
             const j = (ny * w + nx) * 4;
             data[j] = r;
             data[j + 1] = g;
