@@ -1,0 +1,29 @@
+/* 本頁僅補充徽章/微調，不覆蓋共用按鈕與選單樣式（保持與另一頁一致） */
+:root {
+  --border: #2a2e36;
+  --panel-2: #171a20;
+  --text: #e8eaf0;
+  --muted: #9aa0aa;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  background: var(--panel-2);
+  font-size: 12px;
+  letter-spacing: 0.3px;
+}
+.badge b {
+  color: var(--text);
+}
+/* Canvas 填滿容器（容器大小由共用 CSS 控制 RWD 與 aspect-ratio） */
+canvas.layer {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
