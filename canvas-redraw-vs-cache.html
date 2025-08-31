@@ -70,14 +70,14 @@
               </div>
               <div class="status-item">
                 <div class="status-label">TILES</div>
-                <div class="status-value" id="tiles-label">5000</div>
+                <div class="status-value" id="tiles-label">15000</div>
               </div>
             </div>
 
             <div class="stage-info">
               <p class="note">
-                對照：<b>全量重繪</b> 每幀重畫數千個小方塊背景；
-                <b>快取重繪</b> 先把背景畫在離屏畫布，幀內只
+                全量重繪：每幀重畫數千個小方塊背景。<br />
+                快取重繪：先把背景畫在離屏畫布，幀內只
                 <code>drawImage()</code> 一次再繪製前景小球。
               </p>
             </div>
@@ -119,7 +119,7 @@
                   min="500"
                   max="15000"
                   step="500"
-                  value="5000"
+                  value="15000"
                 />
                 <button
                   id="btn-regenerate"
@@ -133,10 +133,10 @@
 
             <div class="control-section">
               <h3>說明</h3>
-              <p class="note">
+              <label>
                 預設不啟動動畫；按 Start/Stop 控制 rAF 迴圈，方便你錄製 DevTools
                 Performance。
-              </p>
+              </label>
             </div>
           </aside>
         </div>
