@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Canvas — rAF vs setInterval</title>
+    <!-- 全站樣式 -->
+    <link rel="stylesheet" href="./src/site.css" />
+    <!-- 本頁少量補充 -->
+    <link rel="stylesheet" href="./canvas-raf-vs-interval/src/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>iThome 鐵人賽 2025 — Demo 目錄</h1>
+      <a
+        href="https://github.com/ALICE-YEN/ithome-contest-2025"
+        target="_blank"
+        rel="noopener"
+        >View Repo</a
+      >
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="nav">
+          <div class="nav-group">
+            <a href="./index.html">首頁</a>
+            <div class="nav-title">CANVAS</div>
+            <a href="./canvas-magic-photo.html">Canvas Magic Photo</a>
+            <a href="./canvas-filter-sticker-playground.html"
+              >Canvas Filter & Sticker Playground</a
+            >
+            <a href="./canvas-vs-dom-css-performance.html"
+              >Canvas vs DOM + CSS Performance</a
+            >
+            <a class="active" href="./canvas-raf-vs-interval.html"
+              >Canvas — requestAnimationFrame vs setInterval</a
+            >
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="demo-grid">
+          <!-- 演示區域 -->
+          <section class="stage-container">
+            <div class="performance-stage-wrapper">
+              <div id="stage-wrap" class="performance-stage">
+                <!-- 本頁只需要 Canvas 這一層 -->
+                <canvas
+                  id="stage-canvas"
+                  class="layer"
+                  aria-hidden="true"
+                ></canvas>
+
+                <!-- 開始覆蓋層：沿用既有互動樣式 -->
+                <div class="stage-overlay" id="stage-overlay">
+                  <div class="overlay-content">
+                    <div class="play-icon">▶</div>
+                    <p>點擊開始 10 秒測試（高負載）</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 狀態顯示：沿用既有卡片 -->
+            <div class="status-display">
+              <div class="status-item mode-display" id="mode-card">
+                <div class="status-label">MODE</div>
+                <div class="status-value" id="mode-label">READY</div>
+              </div>
+              <div class="status-item fps-display">
+                <div class="status-label">FPS</div>
+                <div class="status-value" id="fps-label">0</div>
+              </div>
+              <div class="status-item timer-display">
+                <div class="status-label">TIME</div>
+                <div class="status-value" id="timer-label">0s</div>
+              </div>
+            </div>
+
+            <div class="stage-info">
+              <p class="note">
+                單次測試 10 秒（含 1 秒暖機）。請先跑 Interval，再切到 rAF
+                對照「統計數據」。
+              </p>
+            </div>
+          </section>
+
+          <!-- 控制面板（右側） -->
+          <aside class="control-panel">
+            <div class="control-section">
+              <h3>Test Mode</h3>
+              <label>
+                選擇測試模式
+                <select id="test-mode">
+                  <option value="interval">setInterval（計時器）</option>
+                  <option value="raf">
+                    requestAnimationFrame（與螢幕同步）
+                  </option>
+                </select>
+              </label>
+              <div class="btn-row">
+                <button id="btn-start" class="btn-primary">Start Test</button>
+                <button id="btn-stop" class="btn-secondary" disabled>
+                  Stop Test
+                </button>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <h3>Metrics（本次測試）</h3>
+              <div class="test-specs">
+                <div class="spec-row">
+                  <span class="spec-label">Avg FPS</span
+                  ><span class="spec-value" id="m-fps">—</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label">P95 Frame Time</span
+                  ><span class="spec-value" id="m-p95">—</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label">Long Frames</span
+                  ><span class="spec-value" id="m-long">—</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label">VSync 對齊率</span
+                  ><span class="spec-value" id="m-vsync">—</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <h3>Test Info</h3>
+              <div class="test-specs">
+                <div class="spec-row">
+                  <span class="spec-label">負載等級</span
+                  ><span class="spec-value">高</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label">測試時長</span
+                  ><span class="spec-value">10 秒</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label">粒子數</span
+                  ><span class="spec-value" id="m-count">—</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label">解析度倍率</span
+                  ><span class="spec-value" id="m-scale">—</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <h3>Hardware</h3>
+              <div class="test-specs">
+                <div class="spec-row">
+                  <span class="spec-label">估計刷新率</span
+                  ><span class="spec-value" id="hz">—</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label">DPR</span
+                  ><span class="spec-value" id="dpr">—</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label">CPU Threads</span
+                  ><span class="spec-value" id="cpu">—</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label">Memory</span
+                  ><span class="spec-value" id="mem">—</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label">Browser / OS</span
+                  ><span class="spec-value" id="ua">—</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="./canvas-raf-vs-interval/src/main.js"></script>
+  </body>
+</html>

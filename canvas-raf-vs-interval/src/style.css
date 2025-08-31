@@ -1,0 +1,391 @@
+/* =========================================================
+ * canvas-raf-vs-interval / src/style.css
+ * 本頁所有樣式（配合你的共用深色主題與變數）
+ * 不改動全站，只新增本頁 class
+ * ======================================================= */
+
+/* ===== 版面：舞台(左) + 控制(右) ===== */
+.demo-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px; /* 左欄可收縮，避免擠壞右欄 */
+  gap: 12px;
+  align-items: start;
+}
+
+/* 讓 grid item 真的可以縮，不被內容撐破 */
+.stage-container,
+.control-panel {
+  min-width: 0;
+}
+
+/* ===== 舞台容器（左側卡片） ===== */
+.stage-container {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+/* 舞台外框 */
+.performance-stage-wrapper {
+  margin-bottom: 12px;
+}
+
+/* 實際舞台（包 canvas 與覆蓋層） */
+.performance-stage {
+  position: relative;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+  width: 100%;
+}
+
+/* 主要繪圖層（Canvas） */
+.performance-stage .layer {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9; /* 舞台比例 */
+  background: #0b0c10; /* 舞台底色（與全站一致） */
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+/* 舞台覆蓋層（開始測試引導 UI） */
+.stage-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.44));
+  border-radius: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+.stage-overlay .overlay-content {
+  text-align: center;
+  color: var(--text);
+}
+.stage-overlay .play-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(90, 169, 230, 0.1);
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 8px;
+  box-shadow: 0 0 0 6px rgba(90, 169, 230, 0.06),
+    0 1px 10px rgba(0, 0, 0, 0.25) inset;
+}
+.stage-overlay .overlay-content p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* 舞台下方說明 */
+.stage-info .note {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ===== 狀態卡片群（FPS / TIME / MODE） ===== */
+.status-display {
+  margin-top: 10px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+}
+.status-item {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.status-label {
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.status-value {
+  margin-top: 2px;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 模式卡片顏色（Interval / rAF） */
+.mode-display.mode-interval {
+  background: linear-gradient(
+    135deg,
+    rgba(245, 158, 11, 0.06),
+    rgba(245, 158, 11, 0.03)
+  );
+  border-color: #66420a;
+  box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.08);
+}
+.mode-display.mode-interval .status-value {
+  color: #f59e0b;
+}
+
+.mode-display.mode-raf {
+  background: linear-gradient(
+    135deg,
+    rgba(34, 197, 94, 0.06),
+    rgba(34, 197, 94, 0.03)
+  );
+  border-color: #0f3a1f;
+  box-shadow: inset 0 0 0 1px rgba(34, 197, 94, 0.08);
+}
+.mode-display.mode-raf .status-value {
+  color: #22c55e;
+}
+
+/* FPS 顏色級距（沿用你的慣例） */
+.fps-display.fps-high .status-value {
+  color: #22c55e;
+} /* good */
+.fps-display.fps-medium .status-value {
+  color: #f59e0b;
+} /* warn */
+.fps-display.fps-low .status-value {
+  color: #ef4444;
+} /* bad */
+
+/* 測試進行中的時間視覺 */
+.timer-display.running .status-value {
+  color: var(--accent);
+  text-shadow: 0 0 14px rgba(90, 169, 230, 0.18);
+}
+
+/* ===== 控制側欄（右側卡片） ===== */
+.control-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  align-self: start;
+}
+.control-section {
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.control-section h3 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+/* 按鈕與行 */
+.btn-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.btn-primary,
+.btn-secondary {
+  appearance: none;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--panel);
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+.btn-primary {
+  background: linear-gradient(180deg, #1a60a6, #124b80);
+  border-color: #0f3c66;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--panel-2);
+}
+.btn-secondary:hover {
+  transform: translateY(-1px);
+}
+
+/* Select */
+.control-section select {
+  width: 100%;
+  margin: 6px 0 8px;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+/* 測試規格 / 硬體資訊列表 */
+.test-specs {
+  display: grid;
+  gap: 6px;
+}
+.spec-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 6px 8px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.spec-label {
+  font-size: 12px;
+  color: var(--muted);
+}
+.spec-value {
+  font-size: 13px;
+  color: var(--text);
+}
+
+/* ===== 響應式 ===== */
+@media (max-width: 1180px) {
+  .demo-grid {
+    grid-template-columns: 1fr; /* 上下堆疊：舞台在上，控制在下 */
+  }
+  .control-panel {
+    order: 2;
+  }
+}
+@media (max-width: 720px) {
+  .status-display {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+}
+@media (max-width: 460px) {
+  .status-display {
+    grid-template-columns: 1fr;
+  }
+  .status-item {
+    min-height: 58px;
+  }
+  .control-section h3 {
+    font-size: 12px;
+  }
+  .btn-primary,
+  .btn-secondary {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+}
+
+/* === 舞台一致化：最大寬度 + 比例 + 置中 ===================== */
+/* 依你的專案習慣，可以選擇 16/9 或 3/2。兩者擇一用：           */
+/* - 若 JS 用 CSS_W=960, CSS_H=540 → 16/9                        */
+/* - 若 JS 用 CSS_W=900, CSS_H=600  → 3/2                        */
+:root {
+  --stage-max-w: 960px; /* 改成 900px 也可，跟 JS 對齊就行 */
+  --stage-aspect: 16 / 9; /* 若 JS 是 900×600，改成 3 / 2 */
+}
+
+/* 兩欄版面修正：左欄可收縮，右欄固定寬度 */
+.demo-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 12px;
+  align-items: start;
+}
+.stage-container,
+.control-panel {
+  min-width: 0;
+}
+
+/* 舞台卡片 */
+.performance-stage-wrapper {
+  margin-bottom: 12px;
+}
+
+.performance-stage {
+  position: relative;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+  width: 100%;
+  padding: 10px; /* 讓內框與其他頁視覺更像 */
+}
+
+/* Canvas 舞台：固定比例、限制最大寬、置中 */
+.performance-stage .layer {
+  display: block;
+  width: min(100%, var(--stage-max-w)); /* 不再無限撐滿 */
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: var(--stage-aspect);
+  margin-inline: auto; /* 置中 */
+  background: #0b0c10;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+/* 開始覆蓋層仍舊鋪滿舞台容器 */
+.stage-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.44));
+  border-radius: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+.stage-overlay .overlay-content p {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* 狀態卡片保持三等分；小螢幕再降列 */
+.status-display {
+  margin-top: 10px;
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+}
+@media (max-width: 1180px) {
+  .demo-grid {
+    grid-template-columns: 1fr;
+  }
+  .control-panel {
+    order: 2;
+  }
+}
+@media (max-width: 720px) {
+  .status-display {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+}
+@media (max-width: 460px) {
+  .status-display {
+    grid-template-columns: 1fr;
+  }
+}
