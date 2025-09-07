@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</title>
+    <link rel="stylesheet" href="./src/site.css" />
+    <link rel="stylesheet" href="./drag-and-drop/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</h1>
+      <a
+        href="https://github.com/ALICE-YEN/ithome-contest-2025"
+        target="_blank"
+        rel="noopener"
+        >View Repo</a
+      >
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="nav">
+          <div class="nav-group">
+            <a href="./index.html">首頁</a>
+            <div class="nav-title">HTML 畫布 API</div>
+            <a href="./canvas-magic-photo.html">Canvas Magic Photo</a>
+            <a href="./canvas-filter-sticker-playground.html"
+              >Canvas Filter & Sticker Playground</a
+            >
+            <a href="./canvas-vs-dom-css-performance.html"
+              >Canvas vs DOM + CSS Performance</a
+            >
+            <a href="./canvas-redraw-vs-cache.html"
+              >Canvas：全量重繪 vs 快取背景</a
+            >
+            <div class="nav-title">HTML 拖曳 API</div>
+            <a class="active" href="./drag-and-drop.html">Drag and Drop</a>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="demo-grid">
+          <!-- 左：操作舞台 -->
+          <section class="stage">
+            <div class="stage-inner">
+              <div class="row">
+                <div
+                  class="card draggable"
+                  draggable="true"
+                  data-id="A"
+                  id="drag-A"
+                >
+                  A
+                </div>
+                <div
+                  class="card draggable"
+                  draggable="true"
+                  data-id="B"
+                  id="drag-B"
+                >
+                  B
+                </div>
+              </div>
+
+              <div class="row drops">
+                <div class="dropzone" id="drop-1">將物件拖放到這裡</div>
+                <div class="dropzone" id="drop-2">或放到這裡</div>
+              </div>
+
+              <div class="hint">
+                拖曳上方卡片到任一放置區。<br />
+                <code>dragover</code> 會呼叫
+                <code>preventDefault()</code> 以允許 <code>drop</code>。
+              </div>
+            </div>
+          </section>
+
+          <!-- 右：事件卡片 -->
+          <aside class="panel">
+            <div class="panel-card">
+              <div class="panel-title">拖曳元素（draggable）</div>
+              <div class="event-stack">
+                <div id="src-start" class="event-big subtle">—</div>
+                <div id="src-flow" class="event-big">—</div>
+              </div>
+            </div>
+
+            <div class="panel-card">
+              <div class="panel-title">放置目標（dropzone）</div>
+              <div class="event-stack">
+                <div id="tgt-enter" class="event-big subtle">—</div>
+                <div id="tgt-flow" class="event-big">—</div>
+              </div>
+            </div>
+
+            <div class="panel-card">
+              <div class="panel-title">DataTransfer</div>
+              <div id="dt-box" class="event-big mono">—</div>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="./drag-and-drop/main.js"></script>
+  </body>
+</html>
