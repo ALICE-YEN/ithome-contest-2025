@@ -1,0 +1,167 @@
+/* ---- 版面比例：左彈性區 + 右固定 360px ---- */
+.demo-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px; /* 左側自適應，右側固定寬 */
+  gap: 16px;
+  align-items: start;
+}
+
+/* 右側面板以卡片疊放（維持現在樣式即可） */
+.panel {
+  display: grid;
+  gap: 16px;
+}
+
+/* ---- 斷點：和效能頁一致 ---- */
+@media (max-width: 1100px) {
+  .demo-grid {
+    grid-template-columns: 1fr 340px; /* 右欄略縮 */
+  }
+}
+
+@media (max-width: 900px) {
+  .demo-grid {
+    grid-template-columns: 1fr; /* 窄螢幕改單欄堆疊 */
+  }
+}
+
+/* ===== 左：操作舞台（外框 + 內框） ===== */
+.stage {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 16px;
+}
+.stage-inner {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  display: grid;
+  gap: 16px;
+  max-width: 900px; /* 與效能頁相近的視覺寬度上限 */
+  margin: 0 auto; /* 舞台置中 */
+}
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 120px;
+  height: 120px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  cursor: grab;
+  user-select: none;
+}
+.card:active {
+  cursor: grabbing;
+}
+.card[data-id="A"] {
+  background: #254a72;
+}
+.card[data-id="B"] {
+  background: #2d6a4f;
+}
+
+.drops {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 兩等分 */
+  gap: 16px;
+}
+
+.dropzone {
+  min-height: 260px; /* 縮小高度 */
+  border-radius: 14px;
+  border: 2px dashed #5a6472;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  background: #0f131a;
+  transition: 0.15s ease;
+}
+
+.dropzone.over {
+  border-color: var(--accent);
+  color: #cdebd6;
+}
+.dropzone.bg-A {
+  background: #1a2c42;
+  border-color: #254a72;
+  color: #cfe9ff;
+}
+.dropzone.bg-B {
+  background: #123626;
+  border-color: #2d6a4f;
+  color: #cdebd6;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ===== 右：事件卡片群 ===== */
+.panel {
+  display: grid;
+  gap: 16px;
+}
+.panel-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+}
+.panel-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  opacity: 0.92;
+}
+
+/* 事件顯示 */
+.event-stack {
+  display: grid;
+  gap: 8px;
+}
+.event-big {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: 800;
+  text-align: center;
+  min-height: 52px;
+}
+.event-big.subtle {
+  opacity: 0.95;
+}
+.event-big.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* dragenter 白色閃光，避免被 dragover 洗掉 */
+.flash {
+  animation: flash-bg 420ms ease;
+}
+@keyframes flash-bg {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.18);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
