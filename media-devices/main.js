@@ -157,15 +157,20 @@ function stopShare() {
   log("⏹️ Screen share stopped");
 }
 
-function chooseMime() {
-  // Safari 對 webm 支援度較差，嘗試 fallback
-  if (window.MediaRecorder && MediaRecorder.isTypeSupported) {
-    if (MediaRecorder.isTypeSupported("audio/webm"))
-      return { mimeType: "audio/webm" };
-    if (MediaRecorder.isTypeSupported("audio/mp4"))
-      return { mimeType: "audio/mp4" };
+// 選一個瀏覽器實際支援的音訊 MIME
+function pickAudioMime() {
+  if (!(window.MediaRecorder && MediaRecorder.isTypeSupported)) return {};
+
+  const candidates = [
+    "audio/webm;codecs=opus",
+    "audio/webm", // Chromium 家族
+    "audio/ogg;codecs=opus", // Firefox
+    "audio/mp4", // Safari（可能不穩，但作為保底）
+  ];
+  for (const t of candidates) {
+    if (MediaRecorder.isTypeSupported(t)) return { mimeType: t };
   }
-  return {}; // 交由瀏覽器決定
+  return {}; // 交給瀏覽器決定
 }
 
 function startRecording() {
@@ -173,33 +178,53 @@ function startRecording() {
     log("⚠️ 尚未開啟攝影機/麥克風");
     return;
   }
+
+  // 僅取音訊軌，避免「含 video track 卻用 audio 容器」的衝突
+  const audioTracks = camStream.getAudioTracks();
+  if (!audioTracks.length) {
+    log("❌ 找不到可錄製的音訊軌（請確認麥克風權限或裝置）");
+    return;
+  }
+
+  // 用「只含音訊軌」建立新的 MediaStream。避免把 同時含 video+audio 的 camStream 丟進 音訊容器（如 audio/webm），在部分瀏覽器會觸發 NotSupportedError
+  const audioOnlyStream = new MediaStream(audioTracks);
+
   try {
     recordedChunks = [];
-    audioRecorder = new MediaRecorder(camStream, chooseMime());
+    audioRecorder = new MediaRecorder(audioOnlyStream, pickAudioMime());
+
+    // 每次有錄到資料就把 Blob 片段塞進 recordedChunks 陣列
     audioRecorder.ondataavailable = (e) => {
       if (e.data && e.data.size > 0) recordedChunks.push(e.data);
     };
+
+    // 停止錄音時把所有片段合併成一個 Blob，建立 URL，生成一個下載連結＋可播放的 <audio>
     audioRecorder.onstop = () => {
       const type = recordedChunks[0]?.type || "audio/webm";
       const blob = new Blob(recordedChunks, { type });
       const url = URL.createObjectURL(blob);
+
       const item = document.createElement("div");
       item.className = "rec-item";
+
       const a = document.createElement("a");
       a.href = url;
       a.download = `recording-${Date.now()}.${
-        type.includes("mp4") ? "mp4" : "webm"
+        type.includes("mp4") ? "mp4" : type.includes("ogg") ? "ogg" : "webm"
       }`;
       a.textContent = "Download recording";
+
       const audio = document.createElement("audio");
       audio.controls = true;
       audio.src = url;
+
       item.appendChild(a);
       item.appendChild(audio);
       els.recordings.prepend(item);
       setRecStatus("STOPPED");
     };
-    audioRecorder.start();
+
+    audioRecorder.start(); // 可選：audioRecorder.start(1000) 每秒派一次 dataavailable
     setRecStatus("RECORDING");
     els.btnStopRec.disabled = false;
     els.btnStartRec.disabled = true;
@@ -229,11 +254,13 @@ function bindUI() {
   els.btnMuteCam.addEventListener("click", toggleMute);
   els.btnMirror.addEventListener("click", applyMirror);
 
-  els.btnFacingUser.addEventListener("click", () =>
-    startCamera({ facingMode: "user" })
+  els.btnFacingUser.addEventListener(
+    "click",
+    () => startCamera({ facingMode: "user" }) // 前鏡頭 (user)
   );
-  els.btnFacingEnv.addEventListener("click", () =>
-    startCamera({ facingMode: { exact: "environment" } })
+  els.btnFacingEnv.addEventListener(
+    "click",
+    () => startCamera({ facingMode: { exact: "environment" } }) // 後鏡頭 (environment)
   );
 
   els.btnStartShare.addEventListener("click", startShare);
