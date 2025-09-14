@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</title>
+    <link rel="stylesheet" href="./src/site.css" />
+    <link rel="stylesheet" href="./media-devices/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</h1>
+      <a
+        href="https://github.com/ALICE-YEN/ithome-contest-2025"
+        target="_blank"
+        rel="noopener"
+        >View Repo</a
+      >
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="nav">
+          <div class="nav-group">
+            <a href="./index.html">首頁</a>
+            <div class="nav-title">HTML 畫布 API</div>
+            <a href="./canvas-magic-photo.html">Canvas Magic Photo</a>
+            <a href="./canvas-filter-sticker-playground.html"
+              >Canvas Filter & Sticker Playground</a
+            >
+            <a href="./canvas-vs-dom-css-performance.html"
+              >Canvas vs DOM + CSS Performance</a
+            >
+            <a href="./canvas-redraw-vs-cache.html"
+              >Canvas：全量重繪 vs 快取背景</a
+            >
+            <div class="nav-title">HTML 拖曳 API</div>
+            <a href="./drag-and-drop.html">Drag and Drop</a>
+            <div class="nav-title">媒體 API</div>
+            <a class="active" href="./media-devices.html">MediaDevices</a>
+            <a href="./screen-capture.html">Screen Capture</a>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="demo-grid">
+          <section class="stage-container">
+            <div class="performance-stage-wrapper">
+              <div class="performance-stage">
+                <div class="video-grid">
+                  <div class="video-card">
+                    <div class="video-label">Camera</div>
+                    <video id="videoPreview" autoplay playsinline muted></video>
+                  </div>
+                  <div class="video-card">
+                    <div class="video-label">Screen Share</div>
+                    <video id="screenPreview" autoplay playsinline></video>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="status-display">
+              <div class="status-item">
+                <div class="status-label">Camera</div>
+                <div class="status-value" id="camStatus">IDLE</div>
+              </div>
+              <div class="status-item">
+                <div class="status-label">Mic</div>
+                <div class="status-value" id="micStatus">IDLE</div>
+              </div>
+              <div class="status-item">
+                <div class="status-label">Recording</div>
+                <div class="status-value" id="recStatus">STOPPED</div>
+              </div>
+            </div>
+          </section>
+
+          <aside class="control-panel">
+            <div class="control-section">
+              <h3>裝置選擇</h3>
+              <label>
+                視訊裝置
+                <select id="cameraSelect"></select>
+              </label>
+              <label>
+                音訊裝置
+                <select id="micSelect"></select>
+              </label>
+              <div class="btn-row">
+                <button id="btnFacingUser">前鏡頭 (user)</button>
+                <button id="btnFacingEnv">後鏡頭 (environment)</button>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <h3>攝影機控制</h3>
+              <div class="btn-row">
+                <button id="btnStartCam" class="btn-primary">
+                  Start Camera
+                </button>
+                <button id="btnStopCam" class="btn-secondary" disabled>
+                  Stop Camera
+                </button>
+              </div>
+              <div class="btn-row">
+                <button id="btnMuteCam" disabled>Mute</button>
+                <button id="btnMirror" disabled>Mirror</button>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <h3>螢幕分享</h3>
+              <div class="btn-row">
+                <button id="btnStartShare" class="btn-primary">
+                  Start Share
+                </button>
+                <button id="btnStopShare" class="btn-secondary" disabled>
+                  Stop Share
+                </button>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <h3>麥克風錄音 (MediaRecorder)</h3>
+              <div class="btn-row">
+                <button id="btnStartRec" class="btn-primary" disabled>
+                  Start Rec
+                </button>
+                <button id="btnStopRec" class="btn-secondary" disabled>
+                  Stop Rec
+                </button>
+              </div>
+              <div class="recordings" id="recordings"></div>
+            </div>
+
+            <div class="control-section">
+              <h3>Log</h3>
+              <pre id="log" class="log"></pre>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="./media-devices/main.js"></script>
+  </body>
+</html>

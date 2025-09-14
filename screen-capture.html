@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</title>
+    <link rel="stylesheet" href="./src/site.css" />
+    <link rel="stylesheet" href="./media-devices/style.css" />
+    <link rel="stylesheet" href="./screen-capture/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</h1>
+      <a
+        href="https://github.com/ALICE-YEN/ithome-contest-2025"
+        target="_blank"
+        rel="noopener"
+        >View Repo</a
+      >
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="nav">
+          <div class="nav-group">
+            <a href="./index.html">首頁</a>
+
+            <div class="nav-title">HTML 畫布 API</div>
+            <a href="./canvas-magic-photo.html">Canvas Magic Photo</a>
+            <a href="./canvas-filter-sticker-playground.html">
+              Canvas Filter & Sticker Playground
+            </a>
+            <a href="./canvas-vs-dom-css-performance.html">
+              Canvas vs DOM + CSS Performance
+            </a>
+            <a href="./canvas-redraw-vs-cache.html">
+              Canvas：全量重繪 vs 快取背景
+            </a>
+
+            <div class="nav-title">HTML 拖曳 API</div>
+            <a href="./drag-and-drop.html">Drag and Drop</a>
+
+            <div class="nav-title">媒體 API</div>
+            <a href="./media-devices.html">MediaDevices</a>
+            <a class="active" href="./screen-capture.html">Screen Capture</a>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="demo-grid">
+          <!-- 舞台：單一螢幕預覽（不做左右兩格） -->
+          <section class="stage-container">
+            <div class="stage">
+              <video id="screenPreview" autoplay playsinline></video>
+            </div>
+
+            <div class="status-row">
+              <div class="status-box">
+                <div class="status-label">Share</div>
+                <div id="shareStatus" class="status-value">IDLE</div>
+              </div>
+              <div class="status-box">
+                <div class="status-label">Recording</div>
+                <div id="recStatus" class="status-value">STOPPED</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 控制面板：延續 Day 10 風格 -->
+          <aside class="control-panel">
+            <div class="control-section">
+              <h3>螢幕分享（getDisplayMedia）</h3>
+              <label>
+                幀率（frameRate）
+                <select id="selFrameRate">
+                  <option value="24">24</option>
+                  <option value="30" selected>30</option>
+                  <option value="60">60</option>
+                </select>
+              </label>
+              <label>
+                游標（cursor）
+                <select id="selCursor">
+                  <option value="always" selected>always</option>
+                  <option value="motion">motion</option>
+                  <option value="never">never</option>
+                </select>
+              </label>
+              <label class="checkbox-row">
+                <input type="checkbox" id="chkMic" /> 合併麥克風旁白
+              </label>
+              <p class="filter-hint">
+                「合併麥克風旁白」會用 Web Audio 將來源音 + Mic 混成一條音軌。
+              </p>
+              <div class="btn-row">
+                <button id="btnStartShare" class="btn-primary">
+                  Start Share
+                </button>
+                <button id="btnStopShare" class="btn-secondary" disabled>
+                  Stop Share
+                </button>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <h3>錄製（MediaRecorder）</h3>
+              <div class="btn-row">
+                <button id="btnStartRec" class="btn-primary" disabled>
+                  Start Rec
+                </button>
+                <button id="btnStopRec" class="btn-secondary" disabled>
+                  Stop Rec
+                </button>
+              </div>
+              <div id="recordings" class="recordings"></div>
+            </div>
+
+            <div class="control-section">
+              <h3>Log</h3>
+              <pre id="log" class="log"></pre>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="./screen-capture/main.js"></script>
+  </body>
+</html>

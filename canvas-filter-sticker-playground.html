@@ -3,15 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Canvas Magic Postcard — MVP</title>
-    <link rel="stylesheet" href="/src/site.css" />
-    <link rel="stylesheet" href="./canvas-magic-postcard/src/style.css" />
+    <title>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</title>
+    <link rel="stylesheet" href="./src/site.css" />
+    <link
+      rel="stylesheet"
+      href="./canvas-filter-sticker-playground/src/style.css"
+    />
   </head>
   <body>
     <header class="header">
-      <h1>iThome 鐵人賽 2025 — Demo 目錄</h1>
+      <h1>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</h1>
       <a
-        href="https://github.com/yourname/ithome-contest-2025"
+        href="https://github.com/ALICE-YEN/ithome-contest-2025"
         target="_blank"
         rel="noopener"
         >View Repo</a
@@ -23,16 +26,29 @@
         <div class="nav">
           <div class="nav-group">
             <a href="./index.html">首頁</a>
-            <div class="nav-title">CANVAS</div>
-            <a class="active" href="./canvas-magic-postcard.html"
-              >Canvas 魔法卡 (Magic Postcard)</a
+            <div class="nav-title">HTML 畫布 API</div>
+            <a href="./canvas-magic-photo.html">Canvas Magic Photo</a>
+            <a class="active" href="./canvas-filter-sticker-playground.html"
+              >Canvas Filter & Sticker Playground</a
             >
+            <a href="./canvas-vs-dom-css-performance.html"
+              >Canvas vs DOM + CSS Performance</a
+            >
+            <a href="./canvas-redraw-vs-cache.html"
+              >Canvas：全量重繪 vs 快取背景</a
+            >
+            <div class="nav-title">HTML 拖曳 API</div>
+            <a href="./drag-and-drop.html">Drag and Drop</a>
+            <div class="nav-title">媒體 API</div>
+            <a href="./media-devices.html">MediaDevices</a>
+            <a href="./screen-capture.html">Screen Capture</a>
           </div>
         </div>
       </aside>
 
       <main class="content">
         <div class="demo-grid">
+          <!-- 畫布區 -->
           <section class="stage">
             <canvas
               id="canvas"
@@ -41,10 +57,13 @@
               class="canvas"
             ></canvas>
             <div class="hint">
-              Click a sticker to select, then drag to move.
+              Click a sticker to select, then drag to move. Selected sticker
+              automatically comes to front.
             </div>
+            <div id="status" class="status">Loading...</div>
           </section>
 
+          <!-- 控制面板 -->
           <aside class="panel">
             <div class="panel-section">
               <h2>Blend & Opacity</h2>
@@ -58,6 +77,10 @@
                   <option>lighter</option>
                   <option>xor</option>
                   <option>destination-over</option>
+                  <option>color-burn</option>
+                  <option>color-dodge</option>
+                  <option>hard-light</option>
+                  <option>soft-light</option>
                 </select>
               </label>
               <label
@@ -83,17 +106,22 @@
 
             <div class="panel-section">
               <h2>Background Filter</h2>
+              <p class="filter-hint">
+                Apply filters to the colorful gradient background!
+              </p>
               <label
                 >Filter
                 <select id="filter">
                   <option value="none">None</option>
                   <option value="grayscale">Grayscale</option>
                   <option value="pixelate">Pixelate</option>
-                  <option value="edge">Edge</option>
+                  <option value="edge">Edge Detection</option>
                 </select>
               </label>
-              <button id="applyFilter">Apply</button>
-              <button id="resetFilter">Restore</button>
+              <div class="btn-row">
+                <button id="applyFilter">Apply Filter</button>
+                <button id="resetFilter">Reset Filter</button>
+              </div>
             </div>
 
             <div class="panel-section">
@@ -114,6 +142,9 @@
       </main>
     </div>
 
-    <script type="module" src="./canvas-magic-postcard/src/main.js"></script>
+    <script
+      type="module"
+      src="./canvas-filter-sticker-playground/src/main.js"
+    ></script>
   </body>
 </html>

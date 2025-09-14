@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</title>
+    <link rel="stylesheet" href="./src/site.css" />
+    <link rel="stylesheet" href="./canvas-magic-photo/src/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</h1>
+      <a
+        href="https://github.com/ALICE-YEN/ithome-contest-2025"
+        target="_blank"
+        rel="noopener"
+        >View Repo</a
+      >
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="nav">
+          <div class="nav-group">
+            <a href="./index.html">首頁</a>
+            <div class="nav-title">HTML 畫布 API</div>
+            <a class="active" href="./canvas-magic-photo.html"
+              >Canvas Magic Photo</a
+            >
+            <a href="./canvas-filter-sticker-playground.html">
+              Canvas Filter & Sticker Playground
+            </a>
+            <a href="./canvas-vs-dom-css-performance.html"
+              >Canvas vs DOM + CSS Performance</a
+            >
+            <a href="./canvas-redraw-vs-cache.html"
+              >Canvas：全量重繪 vs 快取背景</a
+            >
+            <div class="nav-title">HTML 拖曳 API</div>
+            <a href="./drag-and-drop.html">Drag and Drop</a>
+            <div class="nav-title">媒體 API</div>
+            <a href="./media-devices.html">MediaDevices</a>
+            <a href="./screen-capture.html">Screen Capture</a>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="demo-grid">
+          <!-- 畫布區 -->
+          <section class="stage">
+            <canvas
+              id="canvas"
+              width="600"
+              height="400"
+              class="canvas"
+            ></canvas>
+            <div class="hint">
+              Click the canvas to upload an image. Use the panel to switch the
+              background between Stars and Snow.
+            </div>
+            <div id="status" class="status">Ready.</div>
+          </section>
+
+          <!-- 控制面板 -->
+          <aside class="panel">
+            <div class="panel-section">
+              <h2>Image</h2>
+              <label class="file">
+                <input id="fileInput" type="file" accept="image/*" />
+                <span>上傳圖片</span>
+              </label>
+              <div class="btn-row">
+                <button id="resetBtn">Reset Photo</button>
+              </div>
+            </div>
+
+            <div class="panel-section">
+              <h2>Background</h2>
+              <label>
+                Mode
+                <select id="mode">
+                  <option value="stars">Stars</option>
+                  <option value="snow">Snow</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="panel-section">
+              <h2>Export</h2>
+              <div class="btn-row">
+                <button id="exportBtn">Export PNG</button>
+              </div>
+              <p class="filter-hint">
+                Tip: Press <kbd>S</kbd> to export as well
+              </p>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="./canvas-magic-photo/src/main.js"></script>
+  </body>
+</html>

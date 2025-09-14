@@ -1,13 +1,13 @@
-/* reuse styles from previous build for stage/panel */
 .stage {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 16px;
-  display: grid; place-items: center;
+  display: grid;
+  place-items: center;
   position: relative;
   min-height: 420px;
-  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
   margin-bottom: 14px;
 }
 .canvas {
@@ -21,7 +21,8 @@
 }
 .hint {
   position: absolute;
-  bottom: 12px; left: 16px;
+  bottom: 12px;
+  left: 16px;
   color: var(--muted);
   font-size: 12px;
 }
@@ -41,10 +42,19 @@
   padding: 12px;
 }
 .panel-section h2 {
-  font-size: 13px; margin: 0 0 8px 0; color: #cfd6e6; letter-spacing: .2px;
+  font-size: 13px;
+  margin: 0 0 8px 0;
+  color: #cfd6e6;
+  letter-spacing: 0.2px;
 }
-label { display: block; margin: 8px 0; color: var(--muted); }
-select, input[type="range"], button {
+label {
+  display: block;
+  margin: 8px 0;
+  color: var(--muted);
+}
+select,
+input[type="range"],
+button {
   width: 100%;
   background: #0f1218;
   color: var(--text);
@@ -52,10 +62,22 @@ select, input[type="range"], button {
   border-radius: 8px;
   padding: 8px 10px;
 }
-.btn-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-button { cursor: pointer; }
-button:hover { border-color: #3a3f4a; }
-.download-link { display: inline-block; margin-top: 8px; color: var(--accent); }
+.btn-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+button {
+  cursor: pointer;
+}
+button:hover {
+  border-color: #3a82f6;
+}
+.download-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: var(--accent);
+}
 
 .demo-grid {
   display: grid;
@@ -63,9 +85,43 @@ button:hover { border-color: #3a3f4a; }
   gap: 16px;
   align-items: start;
 }
+
 @media (max-width: 1100px) {
-  .demo-grid { grid-template-columns: 1fr 340px; }
+  .demo-grid {
+    grid-template-columns: 1fr 340px;
+  }
 }
 @media (max-width: 900px) {
-  .demo-grid { grid-template-columns: 1fr; }
+  .demo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.status {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: monospace;
+  color: #666;
+}
+
+.filter-hint {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.btn-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn-row button {
+  flex: 1;
+  min-width: 80px;
 }

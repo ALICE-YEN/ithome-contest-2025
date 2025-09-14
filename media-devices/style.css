@@ -1,0 +1,258 @@
+/* ===========================
+   MediaDevices page styles
+   (match Canvas Filter page controls)
+   =========================== */
+
+/* --- Layout (與既有頁面一致) --- */
+.demo-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 16px;
+  align-items: start;
+}
+
+.stage-container {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 420px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  margin-bottom: 14px;
+}
+
+.performance-stage-wrapper {
+  width: 100%;
+  max-width: 100%;
+}
+.performance-stage {
+  position: relative;
+  width: 100%;
+  height: auto;
+  max-width: 900px;
+  aspect-ratio: 3 / 2; /* 舞台比例與既有頁一致 */
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+
+/* 舞台內放兩個預覽框 */
+.performance-stage .video-grid {
+  position: absolute;
+  inset: 0;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  background: #0f1218;
+}
+.video-card {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+}
+.video-label {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #111;
+  border-radius: 8px;
+  display: block;
+  object-fit: cover;
+  transform-origin: center;
+}
+
+/* --- 狀態列（沿用效能頁尺寸） --- */
+.status-display {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 900px;
+  margin: 16px auto 12px;
+}
+.status-item {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.status-label {
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+.status-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  font-family: "SF Mono", Monaco, ui-monospace, monospace;
+  letter-spacing: -0.5px;
+}
+
+/* --- 右側控制面板（對齊現有 panel / panel-section） --- */
+.control-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+.control-section {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+}
+.control-section h3 {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  color: #cfd6e6;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+.control-section label {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+/* --- 表單元件外觀（複製 Canvas Filter 規格） --- */
+/* 100% 寬、深色底、圓角 8px、hover 藍邊 */
+:root {
+  --control-h: 42px;
+}
+
+.control-section select,
+.control-section input[type="range"],
+.control-section button {
+  width: 100%;
+  background: #0f1218;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.control-section button {
+  cursor: pointer;
+}
+.control-section button:hover {
+  border-color: #3a82f6;
+}
+
+/* 等寬按鈕群（兩顆/三顆都平均） */
+.btn-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.btn-row button {
+  flex: 1;
+  min-width: 120px; /* 比原本 80px 稍加大，視覺穩定 */
+}
+
+/* 禁用態一致 */
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: grayscale(0.15);
+}
+
+button:disabled:hover {
+  border: 1px solid var(--border);
+}
+
+/* --- 錄音清單與 Log --- */
+.recordings {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+.rec-item {
+  background: #0f1218;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+}
+.rec-item a {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: #93c5fd;
+}
+.rec-item audio {
+  width: 100%;
+  display: block;
+  margin-top: 6px;
+}
+
+.log {
+  max-height: 180px;
+  overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
+  font-size: 12px;
+  padding: 10px;
+  background: #0f1218;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 1100px) {
+  .demo-grid {
+    grid-template-columns: 1fr 340px;
+  }
+}
+@media (max-width: 900px) {
+  .demo-grid {
+    grid-template-columns: 1fr;
+  }
+  .control-panel {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+@media (max-width: 700px) {
+  .performance-stage {
+    aspect-ratio: 16 / 9;
+  }
+  .control-panel {
+    grid-template-columns: 1fr;
+  }
+  .btn-row {
+    flex-direction: column;
+  }
+  .status-display {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .status-item {
+    padding: 14px;
+    min-height: 70px;
+  }
+  .status-value {
+    font-size: 16px;
+  }
+}

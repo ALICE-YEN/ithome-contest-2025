@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</title>
+    <link rel="stylesheet" href="./src/site.css" />
+    <link
+      rel="stylesheet"
+      href="./canvas-vs-dom-css-performance/src/style.css"
+    />
+  </head>
+  <body>
+    <header class="header">
+      <h1>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</h1>
+      <a
+        href="https://github.com/ALICE-YEN/ithome-contest-2025"
+        target="_blank"
+        rel="noopener"
+        >View Repo</a
+      >
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="nav">
+          <div class="nav-group">
+            <a href="./index.html">首頁</a>
+            <div class="nav-title">HTML 畫布 API</div>
+            <a href="./canvas-magic-photo.html">Canvas Magic Photo</a>
+            <a href="./canvas-filter-sticker-playground.html">
+              Canvas Filter & Sticker Playground
+            </a>
+            <a class="active" href="./canvas-vs-dom-performance.html"
+              >Canvas vs DOM + CSS Performance</a
+            >
+            <a href="./canvas-redraw-vs-cache.html"
+              >Canvas：全量重繪 vs 快取背景</a
+            >
+            <div class="nav-title">HTML 拖曳 API</div>
+            <a href="./drag-and-drop.html">Drag and Drop</a>
+            <div class="nav-title">媒體 API</div>
+            <a href="./media-devices.html">MediaDevices</a>
+            <a href="./screen-capture.html">Screen Capture</a>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="demo-grid">
+          <!-- 演示區域 -->
+          <section class="stage-container">
+            <div class="performance-stage-wrapper">
+              <div id="stage-wrap" class="performance-stage">
+                <div id="stage-dom" class="layer" aria-hidden="true"></div>
+                <canvas
+                  id="stage-canvas"
+                  class="layer"
+                  aria-hidden="true"
+                ></canvas>
+                <div class="stage-overlay" id="stage-overlay">
+                  <div class="overlay-content">
+                    <div class="play-icon">▶</div>
+                    <p>點擊開始效能測試</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 狀態顯示 -->
+            <div class="status-display">
+              <div class="status-item mode-display">
+                <div class="status-label">MODE</div>
+                <div class="status-value" id="mode-label">READY</div>
+              </div>
+              <div class="status-item fps-display">
+                <div class="status-label">FPS</div>
+                <div class="status-value" id="fps-label">0</div>
+              </div>
+              <div class="status-item timer-display">
+                <div class="status-label">TIME</div>
+                <div class="status-value" id="timer-label">0s</div>
+              </div>
+            </div>
+
+            <div class="stage-info">
+              <p class="note">
+                效能測試將在 10 秒後自動停止，避免瀏覽器效能問題。建議觀察 4-8
+                秒間的 FPS 穩定性。<br />
+              </p>
+              <p class="note">
+                體驗提示：DOM 模式下網頁會明顯卡頓，按鈕反應延遲；Canvas
+                模式則保持流暢。
+              </p>
+            </div>
+          </section>
+
+          <!-- 控制面板 -->
+          <aside class="control-panel">
+            <div class="control-section">
+              <h3>Test Mode</h3>
+              <label>
+                選擇測試模式
+                <select id="test-mode">
+                  <option value="dom">DOM + CSS Transform</option>
+                  <option value="canvas">Canvas 2D</option>
+                  <option value="auto">Auto Switch (5s間隔)</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="control-section">
+              <h3>Control</h3>
+              <div class="btn-row">
+                <button id="btn-start" class="btn-primary">Start Test</button>
+                <button id="btn-stop" class="btn-secondary" disabled>
+                  Stop Test
+                </button>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <h3>Test Info</h3>
+              <div class="test-specs">
+                <div class="spec-row">
+                  <span class="spec-label">粒子數量:</span>
+                  <span class="spec-value">10,000</span>
+                </div>
+                <div class="spec-row">
+                  <span class="spec-label">自動停止:</span>
+                  <span class="spec-value">10秒後</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script
+      type="module"
+      src="./canvas-vs-dom-css-performance/src/main.js"
+    ></script>
+  </body>
+</html>
