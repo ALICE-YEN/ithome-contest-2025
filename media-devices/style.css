@@ -181,6 +181,10 @@ button:disabled {
   filter: grayscale(0.15);
 }
 
+button:disabled:hover {
+  border: 1px solid var(--border);
+}
+
 /* --- 錄音清單與 Log --- */
 .recordings {
   display: grid;
