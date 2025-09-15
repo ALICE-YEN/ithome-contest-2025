@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Day 12 — Fullscreen / Clipboard / Web Share</title>
+    <link rel="stylesheet" href="./src/site.css" />
+    <link rel="stylesheet" href="./fullscreen-clipboard-webshare/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>iThome 鐵人賽 2025 — Day 12：Fullscreen / Clipboard / Web Share</h1>
+      <a
+        href="https://github.com/ALICE-YEN/ithome-contest-2025"
+        target="_blank"
+        rel="noopener"
+        >View Repo</a
+      >
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="nav">
+          <div class="nav-group">
+            <a href="./index.html">首頁</a>
+
+            <div class="nav-title">HTML 畫布 API</div>
+            <a href="./canvas-magic-photo.html">Canvas Magic Photo</a>
+            <a href="./canvas-filter-sticker-playground.html">
+              Canvas Filter & Sticker Playground
+            </a>
+            <a href="./canvas-vs-dom-css-performance.html">
+              Canvas vs DOM + CSS Performance
+            </a>
+            <a href="./canvas-redraw-vs-cache.html">
+              Canvas：全量重繪 vs 快取背景
+            </a>
+
+            <div class="nav-title">HTML 拖曳 API</div>
+            <a href="./drag-and-drop.html">Drag and Drop</a>
+
+            <div class="nav-title">媒體 API</div>
+            <a href="./media-devices.html">MediaDevices</a>
+            <a href="./screen-capture.html">Screen Capture</a>
+
+            <div class="nav-title">分享 / 互動 API</div>
+            <a class="active" href="./fullscreen-clipboard-webshare.html">
+              Fullscreen / Clipboard / Web Share
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 主要內容 -->
+      <main class="content">
+        <div class="demo-grid">
+          <!-- 中間舞台：可全螢幕的展示盒 + 可操作的 Canvas -->
+          <section class="stage-container">
+            <div class="stage">
+              <div id="fsTarget" class="fs-target">
+                <div class="fs-inner">
+                  <h2>Fullscreen / Clipboard / Web Share</h2>
+                  <p>這個盒子可以進入全螢幕，也能把 Canvas 圖像複製或分享。</p>
+                  <canvas
+                    id="paint"
+                    width="640"
+                    height="360"
+                    aria-label="demo canvas"
+                  ></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="status-row">
+              <div class="status-box">
+                <div class="status-label">Fullscreen</div>
+                <div id="fsStatus" class="status-value">IDLE</div>
+              </div>
+              <div class="status-box">
+                <div class="status-label">Clipboard</div>
+                <div id="cbStatus" class="status-value">READY</div>
+              </div>
+              <div class="status-box">
+                <div class="status-label">Share</div>
+                <div id="shareStatus" class="status-value">READY</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 右側控制面板 -->
+          <aside class="control-panel">
+            <!-- Fullscreen 控制 -->
+            <div class="control-section">
+              <h3>Fullscreen</h3>
+              <div class="btn-row">
+                <button id="btnToggleFS" class="btn-primary">
+                  Enter Fullscreen
+                </button>
+                <button id="btnExitFS" class="btn-secondary" disabled>
+                  Exit
+                </button>
+              </div>
+              <p class="filter-hint">
+                提示：需在使用者手勢中呼叫，ESC 可以退出
+              </p>
+            </div>
+
+            <!-- Clipboard 控制 -->
+            <div class="control-section">
+              <h3>Clipboard</h3>
+              <label>
+                要複製的文字
+                <input
+                  id="copyInput"
+                  class="text-input"
+                  value="Hello Clipboard!"
+                />
+              </label>
+              <div class="btn-row">
+                <button id="btnCopy" class="btn-primary">Copy Text</button>
+                <button id="btnRead" class="btn-secondary">Read Text</button>
+              </div>
+              <label class="hint">
+                在此輸入框貼上（⌘V / Ctrl+V）
+                <input
+                  id="pasteHere"
+                  class="text-input"
+                  placeholder="貼上看看…"
+                />
+              </label>
+            </div>
+
+            <!-- Web Share 控制 -->
+            <div class="control-section">
+              <h3>Web Share</h3>
+              <div class="btn-row">
+                <button id="btnShare" class="btn-primary">
+                  Share this page
+                </button>
+                <button id="btnShareCanvas" class="btn-secondary">
+                  Share Canvas PNG
+                </button>
+              </div>
+              <label class="hint">
+                選擇檔案後分享
+                <input id="filePicker" type="file" multiple />
+              </label>
+              <div class="btn-row">
+                <button id="btnShareFiles" class="btn-secondary">
+                  Share Files
+                </button>
+              </div>
+              <p class="hint">
+                若裝置不支援 Web Share，會退回「複製連結」或「下載」
+              </p>
+            </div>
+
+            <!-- Log -->
+            <div class="control-section">
+              <h3>Log</h3>
+              <pre id="log" class="log"></pre>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script
+      type="module"
+      src="./fullscreen-clipboard-webshare/main.js"
+    ></script>
+  </body>
+</html>
