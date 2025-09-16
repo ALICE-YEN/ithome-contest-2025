@@ -1,11 +1,3 @@
-/**
- * Day 12 Demo — Fullscreen / Clipboard / Web Share
- * 與 screen-capture 的主結構一致：左側 Sidebar、中央舞台、右側控制面板。
- * - Fullscreen：對 #fsTarget 進入/退出
- * - Clipboard：寫入/讀取文字、paste 事件
- * - Web Share：分享頁面 / 分享 Canvas PNG / 分享使用者選取檔案
- */
-
 const els = {
   fsTarget: document.getElementById("fsTarget"),
   paint: document.getElementById("paint"),
@@ -17,6 +9,7 @@ const els = {
   copyInput: document.getElementById("copyInput"),
   btnCopy: document.getElementById("btnCopy"),
   btnRead: document.getElementById("btnRead"),
+  btnCopyImg: document.getElementById("btnCopyImg"),
   pasteHere: document.getElementById("pasteHere"),
   btnShare: document.getElementById("btnShare"),
   btnShareCanvas: document.getElementById("btnShareCanvas"),
@@ -109,6 +102,24 @@ els.pasteHere.addEventListener("paste", (e) => {
   log("PASTE event:", t);
 });
 
+// 複製 Canvas → PNG 到剪貼簿
+async function copyCanvasImage() {
+  if (!("ClipboardItem" in window)) {
+    setCBStatus("UNSUPPORTED");
+    log("⚠️ 此瀏覽器暫不支援圖片複製（ClipboardItem 不存在）");
+    return;
+  }
+  try {
+    const blob = await canvasToBlob(els.paint, "image/png");
+    await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+    setCBStatus("IMAGE COPIED");
+    log("📋 Copied image: canvas PNG");
+  } catch (e) {
+    setCBStatus("FAIL");
+    log("❌ 複製圖片失敗:", e.name || "", e.message || "");
+  }
+}
+
 // ---------- Web Share ----------
 function setShareStatus(t) {
   els.shareStatus.textContent = t;
@@ -199,9 +210,8 @@ function drawCanvas() {
   ctx.font = "bold 36px ui-sans-serif, system-ui, -apple-system";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillText("Day 12 Demo", c.width / 2, c.height / 2 - 8);
   ctx.font = "16px ui-sans-serif, system-ui, -apple-system";
-  ctx.fillText("Canvas → Copy / Share", c.width / 2, c.height / 2 + 24);
+  ctx.fillText("Canvas → Copy / Share", c.width / 2, c.height / 2);
 }
 
 // ---------- 綁事件 / 初始化 ----------
@@ -210,6 +220,7 @@ function bindUI() {
   els.btnExitFS.addEventListener("click", exitFS);
   els.btnCopy.addEventListener("click", () => copyText(els.copyInput.value));
   els.btnRead.addEventListener("click", readText);
+  els.btnCopyImg.addEventListener("click", copyCanvasImage);
   els.btnShare.addEventListener("click", sharePage);
   els.btnShareCanvas.addEventListener("click", shareCanvas);
   els.btnShareFiles.addEventListener("click", shareFiles);
