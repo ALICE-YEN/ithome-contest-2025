@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</title>
+    <link rel="stylesheet" href="./src/site.css" />
+    <link rel="stylesheet" href="./media-devices/style.css" />
+    <link
+      rel="stylesheet"
+      href="./screen-orientation-wakelock-vibration/style.css"
+    />
+  </head>
+  <body>
+    <header class="header">
+      <h1>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</h1>
+      <a
+        href="https://github.com/ALICE-YEN/ithome-contest-2025"
+        target="_blank"
+        rel="noopener"
+        >View Repo</a
+      >
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="nav">
+          <div class="nav-group">
+            <a href="./index.html">首頁</a>
+
+            <div class="nav-title">HTML 畫布 API</div>
+            <a href="./canvas-magic-photo.html">Canvas Magic Photo</a>
+            <a href="./canvas-filter-sticker-playground.html">
+              Canvas Filter & Sticker Playground
+            </a>
+            <a href="./canvas-vs-dom-css-performance.html">
+              Canvas vs DOM + CSS Performance
+            </a>
+            <a href="./canvas-redraw-vs-cache.html">
+              Canvas：全量重繪 vs 快取背景
+            </a>
+
+            <div class="nav-title">HTML 拖曳 API</div>
+            <a href="./drag-and-drop.html">Drag and Drop</a>
+
+            <div class="nav-title">媒體 API</div>
+            <a href="./media-devices.html">MediaDevices</a>
+            <a href="./screen-capture.html">Screen Capture</a>
+          </div>
+
+          <div class="nav-title">裝置／互動 API</div>
+          <a href="./fullscreen-clipboard-webshare.html">
+            Fullscreen / Clipboard / Web Share
+          </a>
+          <a class="active" href="screen-orientation-wakelock-vibration.html"
+            >Screen Orientation / Wake Lock / Vibration</a
+          >
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="demo-grid">
+          <!-- 中央展示區 -->
+          <section class="stage-container">
+            <div class="stage">
+              <div class="stage-inner">
+                <div class="status-row">
+                  <div class="status-box">
+                    <div class="status-label">Orientation</div>
+                    <div id="oriStatus" class="status-value">-</div>
+                  </div>
+                  <div class="status-box">
+                    <div class="status-label">Wake Lock</div>
+                    <div id="wkStatus" class="status-value">OFF</div>
+                  </div>
+                  <div class="status-box">
+                    <div class="status-label">Vibration</div>
+                    <div id="vbStatus" class="status-value">READY</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 右側控制面板 -->
+          <aside class="control-panel">
+            <div class="control-section">
+              <h3>Screen Orientation</h3>
+              <div class="btn-row">
+                <button id="btnLockLandscape" class="btn-primary" type="button">
+                  鎖定橫向
+                </button>
+                <button
+                  id="btnLockPortrait"
+                  class="btn-secondary"
+                  type="button"
+                >
+                  鎖定直向
+                </button>
+                <button id="btnUnlockOri" class="btn-secondary" type="button">
+                  解除
+                </button>
+              </div>
+              <p class="hint">
+                * 某些瀏覽器可能需要全螢幕才允許鎖定；被拒絕屬正常行為。
+              </p>
+            </div>
+
+            <div class="control-section">
+              <h3>Wake Lock（保持常亮）</h3>
+              <div class="btn-row">
+                <button id="btnWKOn" class="btn-primary" type="button">
+                  保持常亮
+                </button>
+                <button id="btnWKOff" class="btn-secondary" type="button">
+                  釋放
+                </button>
+              </div>
+              <p class="hint">
+                * 需 HTTPS 與使用者手勢；切換 App 後回到頁面可能需要重新申請。
+              </p>
+            </div>
+
+            <div class="control-section">
+              <h3>Vibration（震動回饋）</h3>
+              <div class="btn-row">
+                <button id="btnTap" class="btn-primary" type="button">
+                  輕觸一下
+                </button>
+                <button id="btnOk" class="btn-secondary" type="button">
+                  成功提示
+                </button>
+                <button id="btnStop" class="btn-secondary" type="button">
+                  停止
+                </button>
+              </div>
+              <p class="hint">
+                * 主要在 Android 手機有效；桌面與 iOS 可能無感。
+              </p>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script
+      type="module"
+      src="./screen-orientation-wakelock-vibration/main.js"
+    ></script>
+  </body>
+</html>
