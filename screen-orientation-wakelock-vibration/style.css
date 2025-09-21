@@ -40,6 +40,25 @@
   letter-spacing: 0.3px;
 }
 
+/* CSS 降級示意：純 CSS 響應式，無需鎖向即可適應 */
+.portrait-only {
+  display: none;
+}
+.landscape-only {
+  display: none;
+}
+
+@media (orientation: portrait) {
+  .portrait-only {
+    display: block;
+  }
+}
+@media (orientation: landscape) {
+  .landscape-only {
+    display: block;
+  }
+}
+
 .status-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -111,8 +130,33 @@
   padding: 8px 10px;
   cursor: pointer;
 }
-.control-section button:hover {
-  /* background: #131a2a; */
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.btn-group-label {
+  margin-top: 8px;
+}
+.support-status {
+  margin-bottom: 8px;
+}
+
+/* Log 面板 */
+.log-section .log {
+  height: 180px;
+  overflow: auto;
+  background: #0e1423;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
+  font-size: 12px;
+}
+.log-line {
+  opacity: 0.95;
 }
 
 @media (max-width: 900px) {

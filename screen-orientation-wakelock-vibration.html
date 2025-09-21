@@ -30,15 +30,15 @@
 
             <div class="nav-title">HTML 畫布 API</div>
             <a href="./canvas-magic-photo.html">Canvas Magic Photo</a>
-            <a href="./canvas-filter-sticker-playground.html">
-              Canvas Filter & Sticker Playground
-            </a>
-            <a href="./canvas-vs-dom-css-performance.html">
-              Canvas vs DOM + CSS Performance
-            </a>
-            <a href="./canvas-redraw-vs-cache.html">
-              Canvas：全量重繪 vs 快取背景
-            </a>
+            <a href="./canvas-filter-sticker-playground.html"
+              >Canvas Filter & Sticker Playground</a
+            >
+            <a href="./canvas-vs-dom-css-performance.html"
+              >Canvas vs DOM + CSS Performance</a
+            >
+            <a href="./canvas-redraw-vs-cache.html"
+              >Canvas：全量重繪 vs 快取背景</a
+            >
 
             <div class="nav-title">HTML 拖曳 API</div>
             <a href="./drag-and-drop.html">Drag and Drop</a>
@@ -49,9 +49,9 @@
           </div>
 
           <div class="nav-title">裝置／互動 API</div>
-          <a href="./fullscreen-clipboard-webshare.html">
-            Fullscreen / Clipboard / Web Share
-          </a>
+          <a href="./fullscreen-clipboard-webshare.html"
+            >Fullscreen / Clipboard / Web Share</a
+          >
           <a class="active" href="screen-orientation-wakelock-vibration.html"
             >Screen Orientation / Wake Lock / Vibration</a
           >
@@ -61,7 +61,7 @@
       <main class="content">
         <div class="demo-grid">
           <!-- 中央展示區 -->
-          <section class="stage-container">
+          <section class="stage-container css-fallback-demo">
             <div class="stage">
               <div class="stage-inner">
                 <div class="status-row">
@@ -78,36 +78,82 @@
                     <div id="vbStatus" class="status-value">READY</div>
                   </div>
                 </div>
+
+                <!-- 顯示 CSS 模擬狀態用，占位＋無障礙提示 -->
+                <div class="fallback-status" aria-live="polite"></div>
               </div>
             </div>
           </section>
 
-          <!-- 右側控制面板 -->
+          <!-- 右側控制面板 + Log -->
           <aside class="control-panel">
             <div class="control-section">
               <h3>Screen Orientation</h3>
-              <div class="btn-row">
-                <button id="btnLockLandscape" class="btn-primary" type="button">
-                  鎖定橫向
-                </button>
-                <button
-                  id="btnLockPortrait"
-                  class="btn-secondary"
-                  type="button"
-                >
-                  鎖定直向
-                </button>
-                <button id="btnUnlockOri" class="btn-secondary" type="button">
-                  解除
-                </button>
+              <div id="orientationSupport" class="support-status">
+                檢測支援度中...
               </div>
+
+              <!-- API 鎖向按鈕 -->
+              <div class="btn-group">
+                <label class="btn-group-label">API 螢幕鎖定方向:</label>
+                <div class="btn-row">
+                  <button
+                    id="btnLockLandscape"
+                    class="btn-primary"
+                    type="button"
+                  >
+                    鎖定橫向
+                  </button>
+                  <button
+                    id="btnLockPortrait"
+                    class="btn-secondary"
+                    type="button"
+                  >
+                    鎖定直向
+                  </button>
+                  <button id="btnUnlockOri" class="btn-secondary" type="button">
+                    解除鎖定
+                  </button>
+                </div>
+              </div>
+
+              <!-- CSS 模擬按鈕 -->
+              <div class="btn-group">
+                <label class="btn-group-label">CSS 模擬:</label>
+                <div class="btn-row">
+                  <button
+                    id="btnCSSLandscape"
+                    class="btn-primary"
+                    type="button"
+                  >
+                    CSS 橫向
+                  </button>
+                  <button id="btnCSSPortrait" class="btn-primary" type="button">
+                    CSS 直向
+                  </button>
+                  <button
+                    id="btnCSSAuto"
+                    class="btn-secondary"
+                    type="button"
+                    title="移除強制的 CSS 方向樣式，改回依裝置方向自動偵測"
+                  >
+                    取消 CSS 模擬
+                  </button>
+                </div>
+              </div>
+
               <p class="hint">
-                * 某些瀏覽器可能需要全螢幕才允許鎖定；被拒絕屬正常行為。
+                API 鎖定螢幕方向主要被 Android 支援。iOS/Desktop 請使用 CSS
+                降級自適應模擬效果。
               </p>
             </div>
 
             <div class="control-section">
               <h3>Wake Lock（保持常亮）</h3>
+              <div id="wakelockSupport" class="support-status">
+                檢測支援度中...
+              </div>
+
               <div class="btn-row">
                 <button id="btnWKOn" class="btn-primary" type="button">
                   保持常亮
@@ -116,27 +162,39 @@
                   釋放
                 </button>
               </div>
+
               <p class="hint">
-                * 需 HTTPS 與使用者手勢；切換 App 後回到頁面可能需要重新申請。
+                需要 HTTPS 和使用者互動。切換 App 後回到頁面可能需要重新申請。
               </p>
             </div>
 
             <div class="control-section">
               <h3>Vibration（震動回饋）</h3>
+              <div id="vibrationSupport" class="support-status">
+                檢測支援度中...
+              </div>
+
               <div class="btn-row">
                 <button id="btnTap" class="btn-primary" type="button">
-                  輕觸一下
+                  輕觸震動
                 </button>
-                <button id="btnOk" class="btn-secondary" type="button">
-                  成功提示
+                <button id="btnSuccess" class="btn-secondary" type="button">
+                  成功震動
                 </button>
                 <button id="btnStop" class="btn-secondary" type="button">
-                  停止
+                  停止震動
                 </button>
               </div>
+
               <p class="hint">
-                * 主要在 Android 手機有效；桌面與 iOS 可能無感。
+                主要在 Android 手機有效。iOS 和 Desktop 通常無震動回饋。
               </p>
+            </div>
+
+            <!-- Log 面板 -->
+            <div class="control-section log-section">
+              <h3>Log</h3>
+              <div id="log" class="log"></div>
             </div>
           </aside>
         </div>
