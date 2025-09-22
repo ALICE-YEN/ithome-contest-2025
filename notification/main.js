@@ -45,7 +45,7 @@ function showNotification() {
 // 清空
 $("#btnClear").addEventListener("click", () => {
   $("#title").value = "新訊息";
-  $("#body").value = "你的訂單已出貨";
+  $("#body").value = "";
   $("#icon").value = "";
   $("#badge").value = "";
   $("#tag").value = "";
