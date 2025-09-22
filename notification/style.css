@@ -1,0 +1,32 @@
+/* 讓 stage 內文與狀態列置中 */
+.stage .stage-inner {
+  text-align: center;
+}
+
+/* 狀態列置中、間距與寬度 */
+.stage .status-row {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 16px;
+  margin: 20px auto 0;
+  max-width: 720px;
+}
+
+/* 每個狀態盒加寬、置中 */
+.stage .status-box {
+  min-width: 200px;
+  padding: 14px 18px;
+  text-align: center;
+}
+
+/* 文字層級稍微放大，讓資訊更顯眼 */
+.stage .status-label {
+  opacity: 0.8;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.stage .status-value {
+  font-size: 22px;
+  font-weight: 700;
+}
