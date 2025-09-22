@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notification API — Minimal Demo</title>
+    <link rel="stylesheet" href="./src/site.css" />
+    <link rel="stylesheet" href="./media-devices/style.css" />
+    <link
+      rel="stylesheet"
+      href="./screen-orientation-wakelock-vibration/style.css"
+    />
+    <link rel="stylesheet" href="./notification/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</h1>
+      <a
+        href="https://github.com/ALICE-YEN/ithome-contest-2025"
+        target="_blank"
+        rel="noopener"
+        >View Repo</a
+      >
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="nav">
+          <div class="nav-group">
+            <a href="./index.html">首頁</a>
+            <div class="nav-title">HTML 畫布 API</div>
+            <a href="./canvas-magic-photo.html">Canvas Magic Photo</a>
+            <a href="./canvas-filter-sticker-playground.html"
+              >Canvas Filter & Sticker Playground</a
+            >
+            <a href="./canvas-vs-dom-css-performance.html"
+              >Canvas vs DOM + CSS Performance</a
+            >
+            <a href="./canvas-redraw-vs-cache.html"
+              >Canvas：全量重繪 vs 快取背景</a
+            >
+            <div class="nav-title">HTML 拖曳 API</div>
+            <a href="./drag-and-drop.html">Drag and Drop</a>
+            <div class="nav-title">媒體 API</div>
+            <a href="./media-devices.html">MediaDevices</a>
+            <a href="./screen-capture.html">Screen Capture</a>
+            <div class="nav-title">裝置／互動 API</div>
+            <a href="./fullscreen-clipboard-webshare.html">
+              Fullscreen / Clipboard / Web Share </a
+            ><a href="screen-orientation-wakelock-vibration.html"
+              >Screen Orientation / Wake Lock / Vibration</a
+            >
+            <a class="active" href="./notification.html">Notification</a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 中間：展示區 -->
+      <main class="content">
+        <div class="demo-grid">
+          <section class="stage-container">
+            <div class="stage">
+              <div class="stage-inner">
+                <h2>🔔 此範例僅示範「作業系統通知」🔕</h2>
+
+                <p>
+                  按右邊按鈕就能觸發，前提是瀏覽器支援並且你已允許通知<br />👉
+                  注意：這不是頁面內前端的狀態管理，而是
+                  <b>作業系統層級</b> 的通知中心！
+                </p>
+                <p>
+                  如果沒有看到彈窗，可能被 macOS 收進「通知中心」：<br />請到
+                  <b>系統設定 › 通知</b> 及 <b>瀏覽器的網站設定</b> 確認已開啟
+                </p>
+
+                <div class="status-row">
+                  <div class="status-box">
+                    <div class="status-label">支援度</div>
+                    <div id="support" class="status-value">-</div>
+                  </div>
+                  <div class="status-box">
+                    <div class="status-label">權限</div>
+                    <div id="perm" class="status-value">-</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 右側：Dashboard -->
+          <aside class="control-panel">
+            <div class="control-section">
+              <h3>權限</h3>
+              <div class="support-status" id="supportText">檢測中…</div>
+              <div class="btn-row">
+                <button id="btnPerm" class="btn-primary" type="button">
+                  🔐 請求通知權限
+                </button>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <h3>通知內容</h3>
+              <label class="row"
+                >標題
+                <input
+                  id="title"
+                  type="text"
+                  placeholder="通知標題"
+                  value="小明傳來訊息 💬"
+                />
+              </label>
+              <label class="row"
+                >內容
+                <textarea id="body" rows="3" placeholder="通知內容">
+晚點要不要一起吃火鍋？</textarea
+                >
+              </label>
+              <label class="row"
+                >icon URL（可留空）
+                <input
+                  id="icon"
+                  type="url"
+                  placeholder="https://example.com/icon.png"
+                />
+              </label>
+              <label class="row"
+                >badge URL（可留空）
+                <input
+                  id="badge"
+                  type="url"
+                  placeholder="https://example.com/badge.png"
+                />
+              </label>
+              <label class="row"
+                >tag（去重用，選填）
+                <input id="tag" type="text" placeholder="order:123" />
+              </label>
+
+              <div class="btn-row">
+                <button id="btnNotify" class="btn-primary" type="button">
+                  🔔 立刻跳系統通知
+                </button>
+                <button id="btnDelayed" class="btn-secondary" type="button">
+                  ⏱️ 三秒後跳系統通知
+                </button>
+                <p class="hint">
+                  「三秒後通知」可讓使用者先切到其他分頁（不要關閉頁面），體驗背景通知效果。
+                </p>
+                <button id="btnClear" class="btn-secondary" type="button">
+                  🧹 清空
+                </button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="./notification/main.js"></script>
+  </body>
+</html>
