@@ -30,3 +30,10 @@
   font-size: 22px;
   font-weight: 700;
 }
+
+.control-section input {
+  margin-left: 10px;
+}
+.control-section textarea {
+  margin-left: 10px;
+}
