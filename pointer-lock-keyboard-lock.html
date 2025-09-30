@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</title>
+    <link rel="stylesheet" href="./src/site.css" />
+    <link rel="stylesheet" href="./pointer-lock-keyboard-lock/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</h1>
+      <a
+        href="https://github.com/ALICE-YEN/ithome-contest-2025"
+        target="_blank"
+        rel="noopener"
+        >View Repo</a
+      >
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="nav">
+          <div class="nav-group">
+            <a href="./index.html">首頁</a>
+            <div class="nav-title">HTML 畫布 API</div>
+            <a href="./canvas-magic-photo.html">Canvas Magic Photo</a>
+            <a href="./canvas-filter-sticker-playground.html">
+              Canvas Filter & Sticker Playground
+            </a>
+            <a href="./canvas-vs-dom-css-performance.html"
+              >Canvas vs DOM + CSS Performance</a
+            >
+            <a href="./canvas-redraw-vs-cache.html"
+              >Canvas：全量重繪 vs 快取背景</a
+            >
+            <div class="nav-title">HTML 拖曳 API</div>
+            <a href="./drag-and-drop.html">Drag and Drop</a>
+            <div class="nav-title">媒體 API</div>
+            <a href="./media-devices.html">MediaDevices</a>
+            <a href="./screen-capture.html">Screen Capture</a>
+            <div class="nav-title">裝置／互動 API</div>
+            <a href="./fullscreen-clipboard-webshare.html">
+              Fullscreen / Clipboard / Web Share
+            </a>
+            <a href="./screen-orientation-wakelock-vibration.html"
+              >Screen Orientation / Wake Lock / Vibration</a
+            >
+            <a class="active" href="./pointer-lock-keyboard-lock.html"
+              >Pointer Lock / Keyboard Lock</a
+            >
+            <a href="./notification.html">Notification</a>
+            <div class="nav-title">動畫 API</div>
+            <a href="./animations.html">Web Animations</a>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="demo-grid">
+          <!-- 畫布區 -->
+          <section class="stage">
+            <div
+              class="stage-inner"
+              id="stage"
+              tabindex="0"
+              aria-label="Pointer Lock 舞台"
+            >
+              <div id="box" class="box"></div>
+              <div class="hint">
+                點「進入 Pointer Lock」或直接點舞台<br />
+                移動滑鼠旋轉方塊，Esc 可退出
+              </div>
+            </div>
+          </section>
+
+          <!-- 控制面板 -->
+          <aside class="panel">
+            <div class="panel-section">
+              <h2>Pointer Lock</h2>
+              <button id="btnEnterPL">進入 Pointer Lock</button>
+              <button id="btnExitPL">退出 Pointer Lock</button>
+              <label>
+                靈敏度
+                <input
+                  id="sensitivity"
+                  type="range"
+                  min="0.2"
+                  max="3"
+                  step="0.2"
+                  value="1"
+                />
+              </label>
+              <div class="status">狀態：<span id="plStatus">未鎖定</span></div>
+            </div>
+
+            <!-- <div class="panel-section">
+              <h2>Keyboard Lock</h2>
+              <p class="filter-hint">需 HTTPS；無法攔截系統快捷鍵 (Alt+Tab)</p>
+              <button id="btnLockKeys">鎖定按鍵</button>
+              <button id="btnUnlockKeys">解除鎖定</button>
+              <label>
+                鎖定鍵值
+                <input
+                  id="keysInput"
+                  type="text"
+                  value="F1, Escape, ArrowUp, ArrowDown"
+                />
+              </label>
+              <div class="status">
+                狀態：<span id="kbStatus">未鎖定 / 支援偵測中</span>
+              </div>
+            </div> -->
+
+            <div class="panel-section">
+              <h2>事件紀錄</h2>
+              <button id="btnClear">清除紀錄</button>
+              <ul id="log" class="log"></ul>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="./pointer-lock-keyboard-lock/main.js"></script>
+  </body>
+</html>
