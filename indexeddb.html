@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</title>
+    <link rel="stylesheet" href="./src/site.css" />
+    <link rel="stylesheet" href="./indexeddb/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</h1>
+      <a
+        href="https://github.com/ALICE-YEN/ithome-contest-2025"
+        target="_blank"
+        rel="noopener"
+        >View Repo</a
+      >
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="nav">
+          <div class="nav-group">
+            <a href="./index.html">首頁</a>
+            <div class="nav-title">HTML 畫布 API</div>
+            <a href="./canvas-magic-photo.html">Canvas Magic Photo</a>
+            <a href="./canvas-filter-sticker-playground.html">
+              Canvas Filter & Sticker Playground
+            </a>
+            <a href="./canvas-vs-dom-css-performance.html"
+              >Canvas vs DOM + CSS Performance</a
+            >
+            <a href="./canvas-redraw-vs-cache.html"
+              >Canvas：全量重繪 vs 快取背景</a
+            >
+            <div class="nav-title">HTML 拖曳 API</div>
+            <a href="./drag-and-drop.html">Drag and Drop</a>
+            <div class="nav-title">媒體 API</div>
+            <a href="./media-devices.html">MediaDevices</a>
+            <a href="./screen-capture.html">Screen Capture</a>
+            <div class="nav-title">裝置／互動 API</div>
+            <a href="./fullscreen-clipboard-webshare.html">
+              Fullscreen / Clipboard / Web Share
+            </a>
+            <a href="./screen-orientation-wakelock-vibration.html"
+              >Screen Orientation / Wake Lock / Vibration</a
+            >
+            <a href="./pointer-lock-keyboard-lock.html">Pointer Lock</a>
+            <a href="./notification.html">Notification</a>
+            <div class="nav-title">儲存 API</div>
+            <a class="active" href="./indexeddb.html">IndexedDB</a>
+            <div class="nav-title">動畫 API</div>
+            <a href="./animations.html">Web Animations</a>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="demo-grid">
+          <!-- 主要區域 -->
+          <section class="stage">
+            <div class="notes-container">
+              <h2>我的筆記</h2>
+              <div id="notesList" class="notes-list">
+                <p class="empty-state">尚無筆記，請在右側新增 ✍️</p>
+              </div>
+            </div>
+            <div id="status" class="status">Ready.</div>
+          </section>
+
+          <!-- 控制面板 -->
+          <aside class="panel">
+            <div class="panel-section">
+              <h2>新增筆記</h2>
+              <textarea
+                id="noteInput"
+                placeholder="輸入筆記內容..."
+                rows="4"
+              ></textarea>
+              <button id="addBtn">➕ 新增筆記</button>
+            </div>
+
+            <div class="panel-section">
+              <h2>資料庫操作</h2>
+              <button id="getAllBtn">📋 讀取所有筆記</button>
+              <button id="clearAllBtn">🗑️ 清空所有筆記</button>
+              <button id="deleteDBBtn">💣 刪除資料庫</button>
+            </div>
+
+            <div class="panel-section">
+              <h2>資料庫資訊</h2>
+              <div class="db-info">
+                <div class="info-item">
+                  <span class="label">資料庫名稱:</span>
+                  <span class="value">MyNotesDB</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">版本:</span>
+                  <span class="value" id="dbVersion">-</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">筆記數量:</span>
+                  <span class="value" id="noteCount">0</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">狀態:</span>
+                  <span class="value" id="dbStatus">未連接</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-section">
+              <h2>事件紀錄</h2>
+              <button id="clearLogBtn">清除紀錄</button>
+              <ul id="log" class="log"></ul>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="./indexeddb/main.js"></script>
+  </body>
+</html>
