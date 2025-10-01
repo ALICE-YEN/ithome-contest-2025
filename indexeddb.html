@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</title>
     <link rel="stylesheet" href="./src/site.css" />
-    <link rel="stylesheet" href="./pointer-lock-keyboard-lock/style.css" />
+    <link rel="stylesheet" href="./indexeddb/style.css" />
   </head>
   <body>
     <header class="header">
@@ -46,12 +46,10 @@
             <a href="./screen-orientation-wakelock-vibration.html"
               >Screen Orientation / Wake Lock / Vibration</a
             >
-            <a class="active" href="./pointer-lock-keyboard-lock.html"
-              >Pointer Lock / Keyboard Lock</a
-            >
+            <a href="./pointer-lock-keyboard-lock.html">Pointer Lock</a>
             <a href="./notification.html">Notification</a>
             <div class="nav-title">儲存 API</div>
-            <a href="./indexeddb.html">IndexedDB</a>
+            <a class="active" href="./indexeddb.html">IndexedDB</a>
             <div class="nav-title">動畫 API</div>
             <a href="./animations.html">Web Animations</a>
           </div>
@@ -60,63 +58,61 @@
 
       <main class="content">
         <div class="demo-grid">
-          <!-- 畫布區 -->
+          <!-- 主要區域 -->
           <section class="stage">
-            <div
-              class="stage-inner"
-              id="stage"
-              tabindex="0"
-              aria-label="Pointer Lock 舞台"
-            >
-              <div id="box" class="box"></div>
-              <div class="hint">
-                點「進入 Pointer Lock」或直接點舞台<br />
-                移動滑鼠旋轉方塊，Esc 可退出
+            <div class="notes-container">
+              <h2>我的筆記</h2>
+              <div id="notesList" class="notes-list">
+                <p class="empty-state">尚無筆記，請在右側新增 ✍️</p>
               </div>
             </div>
+            <div id="status" class="status">Ready.</div>
           </section>
 
           <!-- 控制面板 -->
           <aside class="panel">
             <div class="panel-section">
-              <h2>Pointer Lock</h2>
-              <button id="btnEnterPL">進入 Pointer Lock</button>
-              <button id="btnExitPL">退出 Pointer Lock</button>
-              <label>
-                靈敏度
-                <input
-                  id="sensitivity"
-                  type="range"
-                  min="0.2"
-                  max="3"
-                  step="0.2"
-                  value="1"
-                />
-              </label>
-              <div class="status">狀態：<span id="plStatus">未鎖定</span></div>
+              <h2>新增筆記</h2>
+              <textarea
+                id="noteInput"
+                placeholder="輸入筆記內容..."
+                rows="4"
+              ></textarea>
+              <button id="addBtn">➕ 新增筆記</button>
             </div>
 
-            <!-- <div class="panel-section">
-              <h2>Keyboard Lock</h2>
-              <p class="filter-hint">需 HTTPS；無法攔截系統快捷鍵 (Alt+Tab)</p>
-              <button id="btnLockKeys">鎖定按鍵</button>
-              <button id="btnUnlockKeys">解除鎖定</button>
-              <label>
-                鎖定鍵值
-                <input
-                  id="keysInput"
-                  type="text"
-                  value="F1, Escape, ArrowUp, ArrowDown"
-                />
-              </label>
-              <div class="status">
-                狀態：<span id="kbStatus">未鎖定 / 支援偵測中</span>
+            <div class="panel-section">
+              <h2>資料庫操作</h2>
+              <button id="getAllBtn">📋 讀取所有筆記</button>
+              <button id="clearAllBtn">🗑️ 清空所有筆記</button>
+              <button id="deleteDBBtn">💣 刪除資料庫</button>
+            </div>
+
+            <div class="panel-section">
+              <h2>資料庫資訊</h2>
+              <div class="db-info">
+                <div class="info-item">
+                  <span class="label">資料庫名稱:</span>
+                  <span class="value">MyNotesDB</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">版本:</span>
+                  <span class="value" id="dbVersion">-</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">筆記數量:</span>
+                  <span class="value" id="noteCount">0</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">狀態:</span>
+                  <span class="value" id="dbStatus">未連接</span>
+                </div>
               </div>
-            </div> -->
+            </div>
 
             <div class="panel-section">
               <h2>事件紀錄</h2>
-              <button id="btnClear">清除紀錄</button>
+              <button id="clearLogBtn">清除紀錄</button>
               <ul id="log" class="log"></ul>
             </div>
           </aside>
@@ -124,6 +120,6 @@
       </main>
     </div>
 
-    <script type="module" src="./pointer-lock-keyboard-lock/main.js"></script>
+    <script type="module" src="./indexeddb/main.js"></script>
   </body>
 </html>
