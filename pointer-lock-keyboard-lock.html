@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</title>
     <link rel="stylesheet" href="./src/site.css" />
-    <link rel="stylesheet" href="./drag-and-drop/style.css" />
+    <link rel="stylesheet" href="./pointer-lock-keyboard-lock/style.css" />
   </head>
   <body>
     <header class="header">
@@ -25,9 +25,9 @@
             <a href="./index.html">首頁</a>
             <div class="nav-title">HTML 畫布 API</div>
             <a href="./canvas-magic-photo.html">Canvas Magic Photo</a>
-            <a href="./canvas-filter-sticker-playground.html"
-              >Canvas Filter & Sticker Playground</a
-            >
+            <a href="./canvas-filter-sticker-playground.html">
+              Canvas Filter & Sticker Playground
+            </a>
             <a href="./canvas-vs-dom-css-performance.html"
               >Canvas vs DOM + CSS Performance</a
             >
@@ -35,17 +35,18 @@
               >Canvas：全量重繪 vs 快取背景</a
             >
             <div class="nav-title">HTML 拖曳 API</div>
-            <a class="active" href="./drag-and-drop.html">Drag and Drop</a>
+            <a href="./drag-and-drop.html">Drag and Drop</a>
             <div class="nav-title">媒體 API</div>
             <a href="./media-devices.html">MediaDevices</a>
             <a href="./screen-capture.html">Screen Capture</a>
             <div class="nav-title">裝置／互動 API</div>
             <a href="./fullscreen-clipboard-webshare.html">
-              Fullscreen / Clipboard / Web Share </a
-            ><a href="screen-orientation-wakelock-vibration.html"
+              Fullscreen / Clipboard / Web Share
+            </a>
+            <a href="./screen-orientation-wakelock-vibration.html"
               >Screen Orientation / Wake Lock / Vibration</a
             >
-            <a href="./pointer-lock-keyboard-lock.html"
+            <a class="active" href="./pointer-lock-keyboard-lock.html"
               >Pointer Lock / Keyboard Lock</a
             >
             <a href="./notification.html">Notification</a>
@@ -61,68 +62,70 @@
 
       <main class="content">
         <div class="demo-grid">
-          <!-- 左：操作舞台 -->
+          <!-- 畫布區 -->
           <section class="stage">
-            <div class="stage-inner">
-              <div class="row">
-                <div
-                  class="card draggable"
-                  draggable="true"
-                  data-id="A"
-                  id="drag-A"
-                >
-                  A
-                </div>
-                <div
-                  class="card draggable"
-                  draggable="true"
-                  data-id="B"
-                  id="drag-B"
-                >
-                  B
-                </div>
-              </div>
-
-              <div class="row drops">
-                <div class="dropzone" id="drop-1">將物件拖放到這裡</div>
-                <div class="dropzone" id="drop-2">或放到這裡</div>
-              </div>
-
+            <div
+              class="stage-inner"
+              id="stage"
+              tabindex="0"
+              aria-label="Pointer Lock 舞台"
+            >
+              <div id="box" class="box"></div>
               <div class="hint">
-                拖曳上方卡片到任一放置區。<br />
-                <code>dragover</code> 會呼叫
-                <code>preventDefault()</code> 以允許 <code>drop</code>。
+                點「進入 Pointer Lock」或直接點舞台<br />
+                移動滑鼠旋轉方塊，Esc 可退出
               </div>
             </div>
           </section>
 
-          <!-- 右：事件卡片 -->
+          <!-- 控制面板 -->
           <aside class="panel">
-            <div class="panel-card">
-              <div class="panel-title">拖曳元素（draggable）</div>
-              <div class="event-stack">
-                <div id="src-start" class="event-big subtle">—</div>
-                <div id="src-flow" class="event-big">—</div>
-              </div>
+            <div class="panel-section">
+              <h2>Pointer Lock</h2>
+              <button id="btnEnterPL">進入 Pointer Lock</button>
+              <button id="btnExitPL">退出 Pointer Lock</button>
+              <label>
+                靈敏度
+                <input
+                  id="sensitivity"
+                  type="range"
+                  min="0.2"
+                  max="3"
+                  step="0.2"
+                  value="1"
+                />
+              </label>
+              <div class="status">狀態：<span id="plStatus">未鎖定</span></div>
             </div>
 
-            <div class="panel-card">
-              <div class="panel-title">放置目標（dropzone）</div>
-              <div class="event-stack">
-                <div id="tgt-enter" class="event-big subtle">—</div>
-                <div id="tgt-flow" class="event-big">—</div>
+            <!-- <div class="panel-section">
+              <h2>Keyboard Lock</h2>
+              <p class="filter-hint">需 HTTPS；無法攔截系統快捷鍵 (Alt+Tab)</p>
+              <button id="btnLockKeys">鎖定按鍵</button>
+              <button id="btnUnlockKeys">解除鎖定</button>
+              <label>
+                鎖定鍵值
+                <input
+                  id="keysInput"
+                  type="text"
+                  value="F1, Escape, ArrowUp, ArrowDown"
+                />
+              </label>
+              <div class="status">
+                狀態：<span id="kbStatus">未鎖定 / 支援偵測中</span>
               </div>
-            </div>
+            </div> -->
 
-            <div class="panel-card">
-              <div class="panel-title">DataTransfer</div>
-              <div id="dt-box" class="event-big mono">—</div>
+            <div class="panel-section">
+              <h2>事件紀錄</h2>
+              <button id="btnClear">清除紀錄</button>
+              <ul id="log" class="log"></ul>
             </div>
           </aside>
         </div>
       </main>
     </div>
 
-    <script type="module" src="./drag-and-drop/main.js"></script>
+    <script type="module" src="./pointer-lock-keyboard-lock/main.js"></script>
   </body>
 </html>

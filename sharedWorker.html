@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</title>
+    <link rel="stylesheet" href="./src/site.css" />
+    <link rel="stylesheet" href="./sharedWorker/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</h1>
+      <a
+        href="https://github.com/ALICE-YEN/ithome-contest-2025"
+        target="_blank"
+        rel="noopener"
+        >View Repo</a
+      >
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="nav">
+          <div class="nav-group">
+            <a href="./index.html">首頁</a>
+            <div class="nav-title">HTML 畫布 API</div>
+            <a href="./canvas-magic-photo.html">Canvas Magic Photo</a>
+            <a href="./canvas-filter-sticker-playground.html">
+              Canvas Filter & Sticker Playground
+            </a>
+            <a href="./canvas-vs-dom-css-performance.html"
+              >Canvas vs DOM + CSS Performance</a
+            >
+            <a href="./canvas-redraw-vs-cache.html"
+              >Canvas：全量重繪 vs 快取背景</a
+            >
+            <div class="nav-title">HTML 拖曳 API</div>
+            <a href="./drag-and-drop.html">Drag and Drop</a>
+            <div class="nav-title">媒體 API</div>
+            <a href="./media-devices.html">MediaDevices</a>
+            <a href="./screen-capture.html">Screen Capture</a>
+            <div class="nav-title">裝置／互動 API</div>
+            <a href="./fullscreen-clipboard-webshare.html">
+              Fullscreen / Clipboard / Web Share
+            </a>
+            <a href="./screen-orientation-wakelock-vibration.html"
+              >Screen Orientation / Wake Lock / Vibration</a
+            >
+            <a href="./pointer-lock-keyboard-lock.html">Pointer Lock</a>
+            <a href="./notification.html">Notification</a>
+            <div class="nav-title">儲存 API</div>
+            <a href="./indexeddb.html">IndexedDB</a>
+            <div class="nav-title">動畫 API</div>
+            <a href="./animations.html">Web Animations</a>
+            <div class="nav-title">Web Worker API</div>
+            <a class="active" href="./sharedWorker.html">SharedWorker</a>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="demo-grid">
+          <!-- 主要區域 -->
+          <section class="stage">
+            <div class="counter-container">
+              <h2>多分頁共享計數器</h2>
+              <div class="counter-display">
+                <div class="counter-box">
+                  <div class="counter-number" id="mainCount">0</div>
+                  <div class="counter-label">所有分頁共享此數值</div>
+                </div>
+              </div>
+              <div class="button-group">
+                <button id="decrementBtn" class="action-btn btn-minus">
+                  ➖ 減少
+                </button>
+                <button id="incrementBtn" class="action-btn btn-plus">
+                  ➕ 增加
+                </button>
+                <button id="resetBtn" class="action-btn btn-reset">
+                  🔄 重置
+                </button>
+              </div>
+              <div class="highlight-box">
+                <strong>💡 試試看：</strong
+                >點擊下方按鈕開啟新分頁，你會發現所有分頁的計數器都是同步的！
+              </div>
+              <button id="newTabBtn" class="new-tab-btn">
+                🚀 開啟新分頁測試
+              </button>
+            </div>
+            <div id="status" class="status">Ready.</div>
+          </section>
+
+          <!-- 控制面板 -->
+          <aside class="panel">
+            <div class="panel-section">
+              <h2>連線資訊</h2>
+              <div class="db-info">
+                <div class="info-item">
+                  <span class="label">Worker 狀態:</span>
+                  <span class="value" id="workerStatus">未連接</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">連線分頁數:</span>
+                  <span class="value" id="connectionCount">0</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">當前計數:</span>
+                  <span class="value" id="sidebarCount">0</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-section">
+              <h2>活動紀錄</h2>
+              <button id="clearLogBtn">清除紀錄</button>
+              <ul id="log" class="log"></ul>
+            </div>
+
+            <div class="panel-section info-section">
+              <h2>SharedWorker 特性</h2>
+              <div class="feature-list">
+                <div class="feature-item">
+                  <span class="feature-icon">✓</span>
+                  <span class="feature-text"
+                    ><strong>多頁共享：</strong>所有分頁共用同一個 Worker
+                    實例</span
+                  >
+                </div>
+                <div class="feature-item">
+                  <span class="feature-icon">✓</span>
+                  <span class="feature-text"
+                    ><strong>即時同步：</strong
+                    >任一分頁操作立即反映到其他分頁</span
+                  >
+                </div>
+                <div class="feature-item">
+                  <span class="feature-icon">✓</span>
+                  <span class="feature-text"
+                    ><strong>節省資源：</strong>不需為每個分頁創建獨立
+                    Worker</span
+                  >
+                </div>
+                <div class="feature-item">
+                  <span class="feature-icon">✓</span>
+                  <span class="feature-text"
+                    ><strong>統一管理：</strong>適合
+                    WebSocket、快取等共享資源</span
+                  >
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <script type="module" src="./sharedWorker/main.js"></script>
+  </body>
+</html>
