@@ -3,11 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WebAssembly vs. JavaScript 效能比較</title>
+    <title>WebAssembly vs JavaScript 效能比較</title>
     <link rel="stylesheet" href="../src/site.css" />
+    <link
+      rel="stylesheet"
+      href="./canvas-vs-dom-css-performance/src/style.css"
+    />
     <link rel="stylesheet" href="./js-vs-wasm/style.css" />
   </head>
   <body>
+    <header class="header">
+      <h1>iThome 鐵人賽 2025 — 從 Canvas 到各式各樣的 Web API 之旅</h1>
+      <a
+        href="https://github.com/ALICE-YEN/ithome-contest-2025"
+        target="_blank"
+        rel="noopener"
+        >View Repo</a
+      >
+    </header>
+
     <div class="layout">
       <aside class="sidebar">
         <div class="nav">
@@ -53,13 +67,10 @@
       </aside>
 
       <main class="content">
-        <!-- Demo 專屬的兩欄式佈局 -->
-        <div class="app-layout">
-          <!-- Demo 左側：結果顯示區 -->
-          <div class="app-main">
+        <div class="demo-grid">
+          <section class="stage-container">
             <header class="main-header">
-              <h1>WebAssembly vs. JavaScript 效能比較</h1>
-              <p class="subtitle">實測平方和計算的性能差異</p>
+              <h1>WebAssembly vs JavaScript 效能比較 - 實測平方和計算</h1>
             </header>
 
             <div class="result-cards-container">
@@ -106,44 +117,38 @@
                   ><span class="description">毫秒 (ms)</span>
                 </div>
               </div>
-            </div>
 
-            <div class="conclusion-card">
-              <h3 class="conclusion-title">結論</h3>
+              <h2 class="summary-title" id="conclusion-title">結論</h2>
               <p id="conclusion-text">請由右方控制台開始測試。</p>
             </div>
-          </div>
+          </section>
 
-          <!-- Demo 右側：控制台 -->
-          <aside class="control-sidebar">
-            <div class="control-panel">
-              <h2 class="panel-title">測試控制台</h2>
-              <div class="form-group">
-                <label for="iterations">計算次數 (N)</label>
-                <select id="iterations">
+          <aside class="control-panel">
+            <div class="control-section">
+              <h3>計算次數 (N)</h3>
+              <label>
+                <select id="mode-select">
                   <option value="10000000">1 千萬</option>
                   <option value="50000000" selected>5 千萬</option>
                   <option value="100000000">1 億</option>
                   <option value="500000000">5 億</option>
                 </select>
-              </div>
-              <div class="form-group">
-                <label for="run-mode">執行方法</label>
-                <select id="run-mode">
-                  <option value="both" selected>兩者都測試</option>
-                  <option value="js">只測試 JavaScript</option>
-                  <option value="wasm">只測試 WebAssembly</option>
-                </select>
-              </div>
-              <button id="start-btn">▶️ 開始測試</button>
-              <div id="status" class="status-text">待命中</div>
+              </label>
             </div>
-            <div class="control-panel">
-              <h2 class="panel-title">說明</h2>
-              <p class="description-text">
-                此 Demo 比較 JS 與 Wasm (模擬) 的運算性能。Wasm
-                通常用於遊戲、影像處理、AI 等需要極致效能的場景。
-              </p>
+
+            <div class="control-section">
+              <h3>Control</h3>
+              <div class="btn-row">
+                <button id="start-btn" class="btn-primary">Start Test</button>
+              </div>
+            </div>
+
+            <div class="control-section">
+              <h3>說明</h3>
+              <label>
+                此測試將執行一個數字平方和的計算任務，以比較 JavaScript 和
+                WebAssembly 的執行速度。
+              </label>
             </div>
           </aside>
         </div>
